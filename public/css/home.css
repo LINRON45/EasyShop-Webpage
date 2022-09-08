@@ -1,0 +1,48 @@
+/* Home page video & button */
+
+.home-vid {
+    text-align: center;
+  }
+  
+  .home-vid video {
+    height: 100vh;
+    object-fit: fill;
+    filter: contrast(70%) brightness(100%);
+  }
+  
+  .home-overlay {
+    position: absolute;
+    top: 65%;
+    left: 26%;
+    right: 26%;
+    text-align: center;
+    width: 700px;
+    height: auto;
+  }
+  
+  #start-button {
+    border-radius: 40px;
+    border-width: 3px;
+    border-color: inherit;
+    font-size: 18px;
+    font-weight: 700;
+    color: rgb(35, 104, 255);
+    word-spacing: 20%;
+    letter-spacing: 95%;
+    background-color: rgba(240, 255, 255, 0.336);
+  }
+  
+  #start-button:hover {
+    background-color: lightblue;
+  }
+  
+  #video-text {
+    align-self: center;
+    color: rgb(241, 255, 254);
+    font-size: 50px;
+    font-family: "Bangers", cursive;
+    margin-bottom: 30px;
+    word-spacing: 7px;
+    letter-spacing: 0.5px;
+    text-shadow: 8px 2px 8px rgb(58, 58, 58);
+  }
