@@ -1,0 +1,43 @@
+/* Contact */
+.Contact * {
+  font-family: "Roboto Slab", serif;
+  margin: 20px 0 20px 0;
+  width: 700px;
+  padding: 8px;
+  font-size: 18px;
+  color: black;
+}
+
+.Contact input {
+  font-weight: bold;
+  background-color: white;
+}
+
+.fab-but,
+.Contact h1 {
+  position: relative;
+  right: 2%;
+  left: 2%;
+}
+
+.fab-but span {
+  display: none;
+}
+
+.Contact form {
+  text-align: center;
+}
+
+.Contact {
+  display: flex;
+  width: auto;
+  height: auto;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  position: absolute;
+  bottom: 0%;
+  left: 20%;
+  right: 20%;
+  border: 1px solid rgba(73, 73, 73, 0.062);
+}
