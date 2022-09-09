@@ -1,9 +1,12 @@
 import React from "react";
 import Button from "@mui/material/Button";
 import { getCookie } from "react-use-cookie";
+import { useNavigate } from "react-router-dom";
 
 function Home_Display(props) {
   const cookie = getCookie("state");
+
+  let navigate = useNavigate()
 
   return (
     <div className="home-vid">
@@ -17,7 +20,8 @@ function Home_Display(props) {
           <Button
             id="start-button"
             variant="outlined"
-            onClick={() => props.Direct()}
+            // add a path to sign up
+            onClick={()=>navigate("/signup")}
           >
             Get Started
           </Button>

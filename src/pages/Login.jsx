@@ -72,7 +72,6 @@ function Login(props) {
       setCookie("username", Account_username);
 
       props.Func();
-      props.Direct();
     } else {
       setAlert(true);
       setmessage("Invalid password entered.");

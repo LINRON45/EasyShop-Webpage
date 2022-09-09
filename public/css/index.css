@@ -1,4 +1,10 @@
 @import "./home.css";
+@import "./contact.css";
+@import "./shop.css";
+@import "./sales.css";
+@import "./sell.css";
+@import "./cart.css";
+@import "./auth.css";
 
 
 
@@ -12,6 +18,11 @@ body {
   background-color: white;
   background-image: url("https://www.transparenttextures.com/patterns/white-tiles.png");
   font-family: "Roboto Slab", serif;
+}
+
+a{
+  text-decoration: none;
+  color: inherit;
 }
 
 input:focus,
@@ -167,9 +178,7 @@ nav {
     1px 4px 1px gray, 1px 5px 1px gray, 1px 6px 1px gray;
 }
 
-
-
-/*Other pages */
+/* pages */
 
 .Sales,
 .Shop,
@@ -191,193 +200,9 @@ nav {
   width: 1456px;
   height: 100%;
 }
-/* Items */
 
-.items {
-  height: auto;
-  width: 290px;
-  background-color: rgb(255, 160, 105);
-  text-align: center;
-  margin: 30px;
-  border: 5px solid rgb(165, 165, 165);
-  border-radius: 20px;
-  color: black;
-}
 
-.items div {
-  display: flex;
-  flex-direction: column;
-  margin: 20px 40px 20px 40px;
-}
-
-.items div button {
-  margin: 5px;
-  border-radius: 50px;
-  padding: 4px;
-}
-
-.items p {
-  text-align: left;
-  margin-left: 30px;
-  font-size: 16px;
-  font-weight: bold;
-  margin-top: 5px;
-}
-
-.items-img {
-  border: 5px solid rgba(255, 255, 255, 0.76);
-  padding: 1px;
-  height: 250px;
-  width: 250px;
-  margin-top: 20px;
-  margin: 20px 10px;
-  border-radius: 20px;
-}
-
-.list-items {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-/* Sell Page */
-
-.sell-form {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  background-image: url("https://images.pexels.com/photos/5632403/pexels-photo-5632403.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
-  padding: 50px;
-}
-
-.sell-form input,
-textarea {
-  margin: 30px;
-  padding: 10px;
-  width: 750px;
-  height: auto;
-  font-family: inherit;
-  font-size: 16px;
-  border: 2px solid rgba(0, 0, 0, 0.425);
-  background-color: white;
-}
-
-#inp-img {
-  border: none;
-  width: auto;
-  background-color: transparent;
-}
-
-#inp-img:focus {
-  background-color: inherit;
-}
-
-.sell-form section {
-  width: 750px;
-}
-
-#sell-price {
-  width: 636px;
-  margin-right: 30px;
-  margin-left: 0;
-}
-
-#currency:focus {
-  background-color: rgb(220, 253, 242);
-}
-
-#currency {
-  font-family: inherit;
-  font-size: inherit;
-  font-weight: bolder;
-  padding: 10px;
-  text-align: center;
-  color: black;
-  background-color: white;
-}
-
-/* Sign Up and Login*/
-
-.Login {
-  display: flex;
-  flex-direction: column;
-  width: 500px;
-  height: auto;
-  align-items: center;
-  position: absolute;
-  right: 30%;
-  left: 30%;
-  top: 30%;
-  background-color: rgba(255, 255, 255, 0.685);
-  padding-bottom: 20px;
-  border: 1px solid rgb(73, 73, 73);
-}
-
-.SignUp-page {
-  display: flex;
-  background-color: white;
-  flex-direction: row;
-  width: 100%;
-  padding-top: 30px;
-}
-
-.SignUp {
-  display: flex;
-  flex-direction: column;
-  width: 500px;
-  height: 100%;
-}
-
-.SignUp input,
-.Login input {
-  margin-bottom: 20px;
-  padding: 8px;
-  font-size: 16px;
-  width: 70%;
-}
-
-.SignUp input,
-.Login h2 {
-  margin-bottom: 20px;
-}
-
-.SignUp select {
-  margin: 10px;
-  font-size: 16px;
-}
-
-.SignUp-img {
-  margin-top: 10px;
-  height: 681px;
-}
-
-/* Contact */
-.Contact * {
-  font-family: "Roboto Slab", serif;
-  margin: 20px 0 20px 0;
-  width: 700px;
-  padding: 8px;
-  font-size: 18px;
-  color: black;
-}
-
-.Contact input {
-  font-weight: bold;
-  background-color: white;
-}
-
-.fab-but,
-.Contact h1 {
-  position: relative;
-  right: 2%;
-  left: 2%;
-}
-
-.fab-but span {
-  display: none;
-}
-
+/* sell form and contact button */
 #fab1,
 #fab2 {
   background-color: rgb(71, 212, 255);
@@ -396,133 +221,4 @@ textarea {
   transform: scale(0.9);
 }
 
-.Contact form {
-  text-align: center;
-}
 
-.Contact {
-  display: flex;
-  width: auto;
-  height: auto;
-  align-items: center;
-  justify-content: center;
-  background-color: white;
-  position: absolute;
-  bottom: 0%;
-  left: 20%;
-  right: 20%;
-  border: 1px solid rgba(73, 73, 73, 0.062);
-}
-
-/* Sales */
-.Sales {
-  color: black;
-}
-
-.Sales-Item {
-  display: flex;
-  background-color: lightblue;
-  margin: 20px 20px 20px 20px;
-  border: 2px solid gray;
-}
-
-.Sales-Item div {
-  justify-content: right;
-  display: flex;
-  flex-direction: column;
-  margin-left: 850px;
-}
-
-.Sales-Item button {
-  margin: 10px;
-  font-size: 20px;
-  padding: 5px;
-  border-radius: 10px;
-  font-weight: bold;
-}
-
-.Sales-Item img {
-  margin: 10px;
-  width: 350px;
-  height: 350px;
-  border: 4px solid red;
-}
-
-.Sales-ul {
-  margin-left: 50px;
-  margin-top: 30px;
-  list-style: none;
-}
-
-.Sales-li {
-  margin: 10px;
-}
-
-.Sales-li ul {
-  padding-left: 60px;
-}
-
-/* Cart Page */
-
-.heading {
-  text-align: left;
-  margin-left: 30px;
-  margin-top: 30px;
-  color: red;
-  text-shadow: 2px 0px 2px black;
-}
-
-.Cart-contents {
-  display: flex;
-  justify-content: space-between;
-  margin: 0 30px 0 30px;
-  padding: 10px 0 10px 0;
-
-  border-top: 2px solid gray;
-  border-bottom: 2px solid gray;
-}
-
-.Cart-contents div {
-  align-items: center;
-  display: flex;
-}
-
-.Cart-contents div p {
-  margin: 0 5px;
-  word-wrap: break-word;
-}
-
-.quantity,
-.product {
-  word-wrap: break-word;
-  width: 280px;
-}
-
-.Cart-contents img {
-  height: 200px;
-  width: 200px;
-  border-radius: 100%;
-  border: 5px solid white;
-}
-
-.Cart-headings {
-  display: flex;
-  justify-content: space-between;
-  margin: 30px 30px 20px 30px;
-}
-
-.Cart-headings p {
-  height: 30px;
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.quantity button {
-  width: 40px;
-  height: 40px;
-}
-
-.Cart-remove {
-  height: 50px;
-  align-self: center;
-}

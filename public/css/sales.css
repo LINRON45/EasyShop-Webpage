@@ -1,0 +1,47 @@
+/* Sales */
+.Sales {
+    color: black;
+  }
+  
+  .Sales-Item {
+    display: flex;
+    background-color: lightblue;
+    margin: 20px 20px 20px 20px;
+    border: 2px solid gray;
+  }
+  
+  .Sales-Item div {
+    justify-content: right;
+    display: flex;
+    flex-direction: column;
+    margin-left: 850px;
+  }
+  
+  .Sales-Item button {
+    margin: 10px;
+    font-size: 20px;
+    padding: 5px;
+    border-radius: 10px;
+    font-weight: bold;
+  }
+  
+  .Sales-Item img {
+    margin: 10px;
+    width: 350px;
+    height: 350px;
+    border: 4px solid red;
+  }
+  
+  .Sales-ul {
+    margin-left: 50px;
+    margin-top: 30px;
+    list-style: none;
+  }
+  
+  .Sales-li {
+    margin: 10px;
+  }
+  
+  .Sales-li ul {
+    padding-left: 60px;
+  }

@@ -10,9 +10,11 @@ function Shop() {
     const loadData = async () => {
       const data = [];
       const users = await getDocs(collection(db, "Users"));
+
       const loadItems = async () => {
         users.forEach(async (user) => {
           const items = await getDocs(collection(db, `Users/${user.id}/Sales`));
+          
           items.forEach((item) => {
             data.push(item.data());
           });
@@ -52,7 +54,6 @@ function Shop() {
   return (
     <div className="Shop">
       <h1 className="heading">The Shop</h1>
-      <hr></hr>
       <div className="list-items">
         {itemsArr instanceof Array && itemsArr.length
           ? itemsArr.map(createItembox)

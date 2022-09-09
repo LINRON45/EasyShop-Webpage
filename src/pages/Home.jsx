@@ -5,7 +5,7 @@ import HomeItems from "../components/Home/Rest-of-Home";
 function Home(props) {
   return (
     <div>
-      <HomeDisplay Direct={props.Direct} />
+      <HomeDisplay />
       <HomeItems />
     </div>
   );

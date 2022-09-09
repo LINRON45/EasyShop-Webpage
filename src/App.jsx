@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { Link, Route, Routes } from "react-router-dom";
+
 import Logo from "./components/Home/Logo";
 import Home from "./pages/Home";
 import Sales from "./pages/Sales";
@@ -14,30 +16,8 @@ import { useCookies } from "react-cookie";
 import { setCookie } from "react-use-cookie";
 
 function App() {
-  const [navigate, setnavigate] = useState({ option1: true });
   const [login, setlogin] = useCookies(["state"]);
 
-  function handleClick(event) {
-    const select = event.target.id;
-
-    setnavigate(() => {
-      return {
-        [select]: true,
-      };
-    });
-  }
-
-  function Directfunc() {
-    setnavigate({ option6: true });
-  }
-
-  function Directhomefunc() {
-    setnavigate({ option1: true });
-  }
-
-  function loginDirect() {
-    setnavigate({ option1: true });
-  }
 
   function loginstate() {
     setlogin("state", true, { path: "/" });
@@ -52,50 +32,55 @@ function App() {
     <div>
       <nav>
         <ul className="Nav-bar">
-          <li id="option1" onClick={handleClick}>
-            Home
+          <li id="option1">
+            <Link to="/">Home</Link>
           </li>
-          <li id="option3" onClick={handleClick}>
-            Shop
+          <li id="option3">
+            <Link to="/shop">Shop</Link>
           </li>
-          <li id="option4" onClick={handleClick}>
-            Sell
+          <li id="option4">
+            <Link to="/sell">Sell</Link>
           </li>
-          <li id="option2" onClick={handleClick}>
-            My Sales
+          <li id="option2">
+            <Link to="/sales">My Sales</Link>
           </li>
-          <li id="option5" onClick={handleClick}>
-            Contact
+          <li id="option5">
+            <Link to="/contact">Contact</Link>
           </li>
           <Logo />
           {login.state === "false" ? (
-            <li id="option6" onClick={handleClick}>
-              Sign Up
+            <li id="option6">
+              <Link to="/signup">Sign Up</Link>
             </li>
           ) : (
-            <li id="option8" onClick={handleClick}>
-              {" "}
-              Cart{" "}
+            <li id="option8">
+              <Link to="/cart">Cart</Link>
             </li>
           )}
 
           {login.state === "false" ? (
-            <li id="option7" onClick={handleClick}>
-              Log In
+            <li id="option7">
+              <Link to="/login">Log In</Link>
             </li>
           ) : (
-            <Logout Direct={Directhomefunc} func={loginstatefalse} />
+            <Logout func={loginstatefalse} />
           )}
         </ul>
       </nav>
-      {navigate.option1 && <Home Direct={Directfunc} />}
-      {navigate.option2 && <Sales />}
-      {navigate.option3 && <Shop />}
-      {navigate.option4 && <Sell />}
-      {navigate.option5 && <Contact />}
-      {navigate.option6 && <SignUp />}
-      {navigate.option7 && <Login Func={loginstate} Direct={loginDirect} />}
-      {navigate.option8 && <UserCart />}
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/sales" element={<Sales />} />
+        <Route path="/shop" element={<Shop />} />
+        <Route path="/sell" element={<Sell />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route
+          path="/login"
+          element={<Login Func={loginstate}/>}
+        />
+        <Route path="/cart" element={<UserCart />} />
+      </Routes>
     </div>
   );
 }
