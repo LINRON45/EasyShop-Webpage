@@ -2,6 +2,7 @@
 
 .home-vid {
     text-align: center;
+    width: 100%;
   }
   
   .home-vid video {
@@ -11,20 +12,19 @@
   }
   
   .home-overlay {
-    position: absolute;
-    top: 65%;
-    left: 26%;
-    right: 26%;
+    position: relative;
+    margin-top: -22vw;
     text-align: center;
-    width: 700px;
+    width: 100vw;
     height: auto;
   }
   
   #start-button {
-    border-radius: 40px;
-    border-width: 3px;
+    padding: 1vw;
+    border-radius: 4vw;
+    border-width: .3vw;
     border-color: inherit;
-    font-size: 18px;
+    font-size: 1.3vw;
     font-weight: 700;
     color: rgb(35, 104, 255);
     word-spacing: 20%;
@@ -39,10 +39,10 @@
   #video-text {
     align-self: center;
     color: rgb(241, 255, 254);
-    font-size: 50px;
+    font-size: 3vw;
     font-family: "Bangers", cursive;
-    margin-bottom: 30px;
-    word-spacing: 7px;
-    letter-spacing: 0.5px;
-    text-shadow: 8px 2px 8px rgb(58, 58, 58);
+    margin-bottom: 3vw;
+    word-spacing: .3vw;
+    letter-spacing: 0.1vw;
+    text-shadow: .8vw .2vw .8vw rgb(58, 58, 58);
   }

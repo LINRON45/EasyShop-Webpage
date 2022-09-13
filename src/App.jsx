@@ -1,5 +1,11 @@
-import React, { useState } from "react";
-import { Link, Route, Routes } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import {
+  Link,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 
 import Logo from "./components/Home/Logo";
 import Home from "./pages/Home";
@@ -11,26 +17,41 @@ import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import Logout from "./components/Logout";
 import UserCart from "./components/Cart/Cart";
-import { useCookies } from "react-cookie";
-
-import { setCookie } from "react-use-cookie";
+import { getCookie, setCookie } from "react-use-cookie";
 
 function App() {
-  const [login, setlogin] = useCookies(["state"]);
+
+  const [showLogin, setShowLogin] = useState(false);
+
+  let currentPath = useLocation();
+  let navigate = useNavigate();
+  const loginState = getCookie("state")
 
 
-  function loginstate() {
-    setlogin("state", true, { path: "/" });
+  useEffect(() => {
+    const cookie = getCookie("state");
+    if (
+      currentPath.pathname === "/signup" && cookie==="true"   ) {
+      navigate("/");
+    }
+
+    // setCookie("state", false)
+  },[]);
+
+  function loginstate(username) {
+    setCookie("state", true);
+    setCookie("username", `${username}`);
   }
 
   function loginstatefalse() {
     setCookie("username", "");
-    setlogin("state", false, { path: "/" });
+    setCookie("state", false);
   }
 
   return (
     <div>
-      <nav>
+      <nav >
+        <Logo />
         <ul className="Nav-bar">
           <li id="option1">
             <Link to="/">Home</Link>
@@ -38,35 +59,35 @@ function App() {
           <li id="option3">
             <Link to="/shop">Shop</Link>
           </li>
-          <li id="option4">
+          <li id="option4" hidden>
             <Link to="/sell">Sell</Link>
           </li>
-          <li id="option2">
+          <li id="option2" hidden>
             <Link to="/sales">My Sales</Link>
           </li>
           <li id="option5">
             <Link to="/contact">Contact</Link>
           </li>
-          <Logo />
-          {login.state === "false" ? (
-            <li id="option6">
-              <Link to="/signup">Sign Up</Link>
-            </li>
-          ) : (
-            <li id="option8">
-              <Link to="/cart">Cart</Link>
-            </li>
-          )}
 
-          {login.state === "false" ? (
-            <li id="option7">
-              <Link to="/login">Log In</Link>
-            </li>
-          ) : (
-            <Logout func={loginstatefalse} />
-          )}
+          <li>
+            {loginState ==="false"? (
+              <Link to="/signup">Sign Up</Link>
+            ) : (
+              <Link to="/cart">Cart</Link>
+            )}
+          </li>
+
+          <li>
+            {loginState==="false" ? (
+              <a onClick={() => setShowLogin(true)}>Log In</a>
+            ) : (
+              <Logout func={loginstatefalse} />
+            )}
+          </li>
         </ul>
       </nav>
+
+      {showLogin && <Login Func={loginstate} showLogin={setShowLogin} />}
 
       <Routes>
         <Route path="/" element={<Home />} />
@@ -75,10 +96,6 @@ function App() {
         <Route path="/sell" element={<Sell />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route
-          path="/login"
-          element={<Login Func={loginstate}/>}
-        />
         <Route path="/cart" element={<UserCart />} />
       </Routes>
     </div>

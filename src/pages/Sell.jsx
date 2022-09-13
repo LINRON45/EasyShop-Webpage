@@ -7,7 +7,6 @@ import { getCookie } from "react-use-cookie";
 
 function Sell() {
   const [image, setImage] = useState(null);
-  const [progress, setProgress] = useState(0);
   const [button, setButton] = useState('Upload')
 
   const [sellItem, setsellItem] = useState({
@@ -94,11 +93,11 @@ function Sell() {
 
 
 
-  useEffect(async()=>{
-    await setDoc(doc(db, `Users/${currentUser}/Sales/${sellItem.id}`), {
+  useEffect(()=>{
+     setDoc(doc(db, `Users/${currentUser}/Sales/${sellItem.id}`), {
       ...sellItem,
     });
-  }, [sellItem.image])
+  }, [sellItem, currentUser])
 
 
   const [buttonState, setState] = useState(null)

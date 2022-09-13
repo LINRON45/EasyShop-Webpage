@@ -1,22 +1,25 @@
 import React, { useState } from "react";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
-import Zoom from "@mui/material/Zoom";
+// import Zoom from "@mui/material/Zoom";
 import { Button } from "@mui/material";
 import { Alert } from "@mui/material";
 import { setCookie } from "react-use-cookie";
 import AccountServices from "../services/Account-services";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../services/firebase-config";
+import { useNavigate } from "react-router-dom";
 
 function Login(props) {
-  const a = true;
-
   const [loginAttempt, setAttempt] = useState({
-    username: "",
+    email: "",
     password: "",
   });
 
   const [alert, setAlert] = useState(false);
   const [message, setmessage] = useState("");
   const [alerttype, settype] = useState();
+
+  let navigate = useNavigate();
 
   function handlechange(event) {
     const { name, value } = event.target;
@@ -30,14 +33,14 @@ function Login(props) {
   }
 
   async function login() {
-    if (loginAttempt.username === "" && loginAttempt.password === "") {
+    if (loginAttempt.email === "" && loginAttempt.password === "") {
       setAlert(true);
-      setmessage("Enter username and password.");
+      setmessage("Enter email and password.");
       settype("info");
       return;
-    } else if (loginAttempt.username === "") {
+    } else if (loginAttempt.email === "") {
       setAlert(true);
-      setmessage("Enter username.");
+      setmessage("Enter email.");
       settype("info");
       return;
     } else if (loginAttempt.password === "") {
@@ -47,51 +50,60 @@ function Login(props) {
       return;
     }
 
+    let usernameData;
+
     try {
-      await AccountServices.getAccount(loginAttempt.username);
-    } catch (err) {
-      window.alert("Login Error occurred.");
-      console.log(err);
+      const res = await signInWithEmailAndPassword(
+        auth,
+        loginAttempt.email,
+        loginAttempt.password
+      );
+
+      const userCredentials = res.user;
+      const userID = userCredentials.uid;
+
+      const userinfo = await AccountServices.getAccount(userID);
+      const data = userinfo.data();
+
+      setCookie("username", `${data.username}`);
+      setCookie("uid", `${userID}`);
+      setCookie("state", true);
+
+      usernameData = data.username;
+      console.log(userID);
+    } catch (error) {
+      console.log(error);
     }
 
-    const user = await AccountServices.getAccount(loginAttempt.username);
+    props.showLogin(false);
 
-    if (user._document === null) {
-      setAlert(true);
-      setmessage("Account does not exist.");
-      settype("error");
+    return () => {
+      props.func(usernameData);
+      navigate("/");
+    };
+  }
+
+  function closeModal(event) {
+    const target = event.target.id;
+    console.log(target);
+    if (target === "loginModal" || target === "") {
       return;
     }
 
-    const Accountpass =
-      user._document.data.value.mapValue.fields.password.stringValue;
-
-    if (loginAttempt.password === Accountpass) {
-      const Account_username =
-        user._document.data.value.mapValue.fields.username.stringValue;
-      setCookie("username", Account_username);
-
-      props.Func();
-    } else {
-      setAlert(true);
-      setmessage("Invalid password entered.");
-      settype("error");
-      return;
-    }
+    props.showLogin(false);
   }
 
   return (
-    <Zoom in={a}>
-      <div className="Login">
+    <div id="loginOverlay" onClick={closeModal}>
+      <div id="loginModal">
         {alert && (
           <>
             <Alert severity={alerttype}>{message}</Alert>
             <br />
           </>
         )}
-
         <h2>
-          Log into{" "}
+          Log into
           <span>
             <LocalMallIcon />
             EasyShop
@@ -100,9 +112,9 @@ function Login(props) {
         <input
           onChange={handlechange}
           type="text"
-          name="username"
-          placeholder="Enter Username"
-          value={loginAttempt.username}
+          name="email"
+          placeholder="Enter email"
+          value={loginAttempt.email}
         />
         <input
           onChange={handlechange}
@@ -115,7 +127,7 @@ function Login(props) {
           Log In
         </Button>
       </div>
-    </Zoom>
+    </div>
   );
 }
 

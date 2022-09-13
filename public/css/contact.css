@@ -1,9 +1,8 @@
 /* Contact */
 .Contact * {
-  font-family: "Roboto Slab", serif;
-  margin: 20px 0 20px 0;
-  width: 700px;
-  padding: 8px;
+  margin: 20px 0;
+  width: 50vw;
+  padding: .8vw;
   font-size: 18px;
   color: black;
 }
@@ -29,15 +28,13 @@
 }
 
 .Contact {
+  position: relative;
   display: flex;
-  width: auto;
-  height: auto;
+  width: 100vw;
+  height: 100vh;
+  margin: auto;
   align-items: center;
   justify-content: center;
   background-color: white;
-  position: absolute;
-  bottom: 0%;
-  left: 20%;
-  right: 20%;
   border: 1px solid rgba(73, 73, 73, 0.062);
 }

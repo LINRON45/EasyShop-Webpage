@@ -20,7 +20,7 @@ function Sales() {
     settest(userItems);
   }
 
-  useEffect(async () => await getSales());
+  useEffect( () =>  getSales());
 
   return (
     <div className="Sales">

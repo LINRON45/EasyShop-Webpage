@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { getCookie } from "react-use-cookie";
 import { doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../services/firebase-config";
@@ -34,6 +34,7 @@ function ShoppingCart(props) {
             props.Image ||
             "https://c.tenor.com/SUvStf4vWyQAAAAM/loading-and-you-failed.gif"
           }
+          alt=""
         ></img>
       </div>
 

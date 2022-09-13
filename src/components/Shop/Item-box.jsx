@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { getCookie } from "react-use-cookie";
 import { setDoc, doc } from "firebase/firestore";
 import { db } from "../../services/firebase-config";

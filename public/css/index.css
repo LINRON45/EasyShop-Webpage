@@ -6,52 +6,53 @@
 @import "./cart.css";
 @import "./auth.css";
 
-
-
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
 }
 
+html,
 body {
   background-color: white;
   background-image: url("https://www.transparenttextures.com/patterns/white-tiles.png");
   font-family: "Roboto Slab", serif;
+  width: 100vw;
 }
 
-a{
+a {
   text-decoration: none;
   color: inherit;
 }
 
 input:focus,
 textarea:focus {
-  background-color: rgb(220, 253, 242);
+  background-color: rgba(220, 253, 242, 0.256);
 }
 
 /* Navigation bar */
 nav {
   width: 100%;
   position: fixed;
-  z-index: 9; /* Random value high enough to not cause the video to overlap because of fixed position */
+  top: 0;
+  z-index: 1; /* Random value high enough to not cause the video to overlap because of fixed position */
 }
 
 .Nav-bar {
-  padding: 0 20px 0 20px;
   display: flex;
   list-style: none;
+  padding: 0 5vw;
   font-family: "Orbitron", sans-serif;
 
-  font-size: 20px;
+  font-size: 1.2vw;
   background-color: white;
 
   color: dimgray;
-  border-bottom: 1px solid gainsboro;
+  border-bottom: 0.1vw solid gainsboro;
 }
 
 .Nav-bar li {
-  margin: 10px 20px 10px 20px;
+  margin: 1vw 2vw;
   user-select: none;
 }
 
@@ -66,23 +67,16 @@ nav {
   transform: scale(1.2);
 }
 
-#option6,
-#option7 {
-  position: relative;
-  left: 36.5%;
+.Nav-bar > li:nth-last-child(3) {
+  margin-right: auto;
 }
 
-#option8 {
-  position: relative;
-  left: 32.8%;
-}
-
-#option9 {
+/* #option9 {
   display: inline-block;
   position: relative;
   left: 41%;
   margin-bottom: 0;
-  margin-top: 5px;
+  margin-top: .5vw;
 }
 #option9:active {
   transform: none;
@@ -99,7 +93,7 @@ nav {
 
 #option9 span {
   font-size: 20px;
-}
+} */
 
 .dropdown {
   display: none;
@@ -123,7 +117,7 @@ nav {
 }
 
 .dropdown li {
-  margin: 2px;
+  margin: 0.2vw;
   padding-bottom: 0;
   background-color: whitesmoke;
   font-size: 14px;
@@ -167,15 +161,18 @@ nav {
 
 .logo {
   font-family: "Kaushan Script", cursive;
-  position: relative;
-  right: 6%;
-  left: 6%;
-  font-size: 35px;
+  position: absolute;
+  right: 40vw;
+  left: 40vw;
+  width: 20vw;
+
+  text-align: center;
+  font-size: 2vw;
   color: #e73852;
-  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-width: .1vw;
   -webkit-text-stroke-color: orangered;
-  text-shadow: 1px 1px 1px gray, 1px 2px 1px gray, 1px 3px 1px gray,
-    1px 4px 1px gray, 1px 5px 1px gray, 1px 6px 1px gray;
+  text-shadow: .1vw .1vw .1vw gray, .1vw 2px .1vw gray, .1vw 3px .1vw gray,
+    .1vw 4px .1vw gray, .1vw 5px .1vw gray, .1vw 6px .1vw gray;
 }
 
 /* pages */
@@ -187,20 +184,19 @@ nav {
 .SignUp,
 .Login,
 .Cart {
-  padding-top: 50px;
-  margin: 0 40px 0 40px;
   background-color: white;
   color: black;
 }
 
 .Shop,
 .Sales,
-.Cart {
-  position: absolute;
-  width: 1456px;
-  height: 100%;
+.Cart,
+.SignUp-page {
+  position: relative;
+  padding-top: 3.5vw;
+  width: 100vw;
+  height: 94vh;
 }
-
 
 /* sell form and contact button */
 #fab1,
@@ -220,5 +216,3 @@ nav {
 #fab2:active {
   transform: scale(0.9);
 }
-
-

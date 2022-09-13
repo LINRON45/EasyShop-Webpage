@@ -44,12 +44,8 @@ function Shop() {
       />
     );
   }
-  console.log(
-    "Before Render",
-    itemsArr,
-    itemsArr instanceof Array,
-    itemsArr.length
-  );
+
+  //show loading only when fetching data
 
   return (
     <div className="Shop">

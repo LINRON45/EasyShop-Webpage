@@ -1,122 +1,241 @@
 import React, { useState } from "react";
 import AccountServices from "../services/Account-services";
 import { Button } from "@mui/material";
-import Alert from '@mui/material/Alert';
+import Alert from "@mui/material/Alert";
+import axios from "axios";
+import { auth } from "../services/firebase-config";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+
+function SignUp() {
+  const [alert, setalert] = useState(false);
+  const [message, setmessage] = useState("");
+  const [type, settype] = useState("");
+  const [passwordconfirm, setconfirm] = useState("");
+
+  const [userInfo, setUserInfo] = useState({
+    fname: "",
+    lname: "",
+    username: "",
+    email: "",
+    gender: "",
+    DOB: "",
+  });
+
+  const [account, setAccount] = useState({
+    email: "",
+    password: "",
+  });
+
+  
 
 
-function SignUp(){
+  function handleChange(event) {
+    const { name, value } = event.target;
 
-    const [alert, setalert] = useState(false)
-    const [message, setmessage] = useState('')
-    const [type, settype] = useState('')
-    const [passwordconfirm, setconfirm] = useState('')
-
-    const [Account, setAccount] = useState({
-        fname: "",
-        lname: "",
-        username:"",
-        email:"",
-        password:"",
-        gender:"",
-        DOB: ""
-    })
-
-
-
-    function handleChange(event){
-        const {name, value} = event.target;
-
-        setAccount(prevVal=>{
-            return {
-                ...prevVal,
-                [name]:value
-            }
-        })
+    if (name === "password" || name === "email") {
+      setAccount((prevVal) => {
+        return {
+          ...prevVal,
+          [name]: value,
+        };
+      });
     }
 
-
-
-    function confirmHandle(event){
-        const confirm=event.target.value
-        setconfirm(confirm)
+    if (name === "password") {
+      return;
     }
 
-    async function CreateAcc(){
-        const {fname, lname, username, email, password, DOB} =Account
-        setalert(false)
-        setmessage('')
-        settype('')
+    setUserInfo((prevVal) => {
+      return {
+        ...prevVal,
+        [name]: value,
+      };
+    });
+  }
 
-        if(fname===''|| lname===''|| username===''|| email===''|| password===''|| DOB===''){
-            console.log('incomplete')
-            setalert(true)
-            setmessage('Fill all required fields.')
-            settype("info")
-            return;
-        }
-        
-        if(passwordconfirm!==Account.password){
-            setalert(true)
-            setmessage(`Password Confirmation doesn't match Password.`)
-            settype("error")
-            return
-        }
+  function confirmHandle(event) {
+    const confirm = event.target.value;
+    setconfirm(confirm);
+  }
 
+  //Attempt to Create Account and Verify Email
+  async function CreateAcc() {
+    const { fname, lname, username, email, password, DOB } = userInfo;
+    setalert(false);
+    setmessage("");
+    settype("");
 
-        const usernameCheck = await AccountServices.getAccount(Account.username)
-        if(usernameCheck!==null){
-            setalert(true)
-            setmessage(`Username is already taken.`)
-            settype("error")
-            return
-        }
-
-        try {
-            await AccountServices.addAccount(Account.username, Account);
-          } catch (err) {
-              console.log(err)
-            window.alert("Please check your internet connection and that all fields are appropriately filled!")
-            setalert(true)
-            setmessage('Error occurred!')
-            settype("error")
-            return;
-          }
+    if (
+      fname === "" ||
+      lname === "" ||
+      username === "" ||
+      email === "" ||
+      password === ""||
+      DOB === ""
+    ) {
+      setalert(true);
+      setmessage("Fill all required fields.");
+      settype("info");
+      return;
     }
 
+    if (passwordconfirm !== account.password) {
+      setalert(true);
+      setmessage(`Password Confirmation doesn't match Password.`);
+      settype("error");
+      return;
+    }
+
+    const verify = await emailVerify(account.email);
+
+    if (!verify) {
+      return;
+    }
+
+    try {
+      const res = await createUserWithEmailAndPassword(
+        auth,
+        account.email,
+        account.password
+      );
+
+      const userCredentials = res.user;
+      const userID = userCredentials.uid;
 
 
-    return(
-        <div className="SignUp-page">
-                <img className="SignUp-img" src="https://images.pexels.com/photos/6634170/pexels-photo-6634170.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="signup-img"></img>
+      await AccountServices.addAccount(userID, userInfo);
+    } catch (error) {
+      console.log(error);
+    }
 
-            <div className="SignUp">
-            {alert && <Alert severity={type}>{message}</Alert>}
-            <h2>Create an Account</h2>
-            <p>It is free and easy.</p>
-            <input type="text" onChange={handleChange} name="fname" placeholder="Enter First name" value={Account.fname} required/>
-            <input type="text" onChange={handleChange} name="lname" placeholder="Enter Last name" value={Account.lname} required/>
-            <input type="text" onChange={handleChange} name="username" placeholder="Enter Username" value={Account.username} required/>
-            <input type="email" onChange={handleChange} name="email" placeholder="Enter email" value={Account.email}  required/>
-            <input type="password" onChange={handleChange} name="password" placeholder="Enter new password" value={Account.password} required/>
-            <input type="password" onChange={confirmHandle} name="confirm-password" placeholder="Confirm Password" value={passwordconfirm} required/>
+  }
 
-            <label htmlFor="gender" >Gender:
-            <select onChange={handleChange} name="gender" value={Account.gender} required>
-                <option>None</option>
-                <option>Male</option>
-                <option>Female</option>
-                <option>Other</option>
-            </select>
-            </label>
+  //Verify Email Address
+  async function emailVerify(email) {
+    try {
+      const res = await axios.get(
+        `https://emailverification.whoisxmlapi.com/api/v2?apiKey=at_t8L3VT6v08ilz31bDZiNwXDm0Exa1&emailAddress=${email}`
+      );
 
-            
-            <label htmlFor="DOB" required>Birthday</label>
-            
-            <input onChange={handleChange} name="DOB" type="date" value={Account.DOB} required/>
-            <Button variant="contained" onClick={CreateAcc}>Sign Up</Button>
-        </div>
-        </div>
-       
-    )
+      const data = await res.data;
+
+      console.log(data);
+
+      if (
+        data.formatCheck === "false" ||
+        data.freeCheck === "false" ||
+        data.dnsCheck === "false" ||
+        data.smtpCheck === "false"
+      ) {
+        console.log("Invalid email");
+        return false;
+      }
+
+      return true;
+    } catch (error) {
+      console.log("Error Occurred: \n" + error);
+    }
+  }
+
+  return (
+    <div className="SignUp-page">
+      <img
+        className="SignUp-img"
+        src="https://images.pexels.com/photos/6634170/pexels-photo-6634170.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+        alt="signup-img"
+      ></img>
+
+      <div className="SignUp">
+        {alert && type !== "" && <Alert severity={type}>{message}</Alert>}
+        <h2>Create an Account</h2>
+        <p>It is free and easy.</p>
+
+        <input
+          type="text"
+          onChange={handleChange}
+          name="fname"
+          placeholder="Enter First name"
+          value={userInfo.fname}
+          required
+        />
+
+        <input
+          type="text"
+          onChange={handleChange}
+          name="lname"
+          placeholder="Enter Last name"
+          value={userInfo.lname}
+          required
+        />
+
+        <input
+          type="text"
+          onChange={handleChange}
+          name="username"
+          placeholder="Enter Username"
+          value={userInfo.username}
+          required
+        />
+
+        <input
+          type="email"
+          onChange={handleChange}
+          name="email"
+          placeholder="Enter email"
+          value={account.email}
+          required
+        />
+
+        <input
+          type="password"
+          onChange={handleChange}
+          name="password"
+          placeholder="Enter new password"
+          value={account.password}
+          required
+        />
+
+        <input
+          type="password"
+          onChange={confirmHandle}
+          name="confirm-password"
+          placeholder="Confirm Password"
+          value={passwordconfirm}
+          required
+        />
+
+        <label htmlFor="gender">
+          Gender:
+          <select
+            id="gender"
+            onChange={handleChange}
+            name="gender"
+            value={userInfo.gender}
+            required
+          >
+            <option>None</option>
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+          </select>
+        </label>
+
+        {/* fix misbehaviour  */}
+
+        <label htmlFor="DOB">Date of Birth</label>
+
+        <input
+          id="DOB"
+          onChange={handleChange}
+          name="DOB"
+          type="date"
+          required
+        />
+        <Button variant="contained" onClick={CreateAcc}>
+          Sign Up
+        </Button>
+      </div>
+    </div>
+  );
 }
 export default SignUp;

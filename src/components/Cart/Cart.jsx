@@ -19,7 +19,10 @@ function UserCart() {
     return arr;
   }
 
-  useEffect(async () => await getFiles().then((obj) => setfiles(obj)));
+  useEffect(() => {
+    const obj = getFiles();
+    setfiles(obj);
+  }, []);
 
   console.log(files);
 

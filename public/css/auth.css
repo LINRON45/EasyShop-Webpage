@@ -1,0 +1,103 @@
+/* Login*/
+#loginOverlay {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  display: flex;
+  background-color: rgba(128, 128, 128, 0.653);
+}
+
+#loginModal {
+  width: 42vw;
+  height: 40vh;
+  background: radial-gradient(rgb(204, 204, 204) ,rgb(255, 193, 85) 30%, rgb(249, 93, 93));
+  filter: saturate(105%);
+  box-shadow: 0.5vw 0.3vw .5vw rgb(67, 66, 66);
+
+  margin: auto;
+  z-index: 1;
+  border-radius: 0.5vw;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 2vw;
+  border: 0.1vw solid rgba(0, 0, 0, 0.425);
+}
+
+#loginModal > h2 {
+  margin-bottom: 2vw;
+}
+
+#loginModal > input {
+  margin: 1vw 0;
+  width: 20vw;
+  font-size: 1vw;
+  padding: 0.5vw;
+  border-radius: 0.4vw;
+}
+
+#loginModal > input:focus {
+  background-color: rgb(136, 233, 255);
+}
+
+#loginModal > button {
+  margin-top: 2vw;
+  font-size: 1vw;
+}
+
+/* SignUp */
+
+.SignUp-page {
+  display: grid;
+  background-color: white;
+  grid-template-columns: 70% auto;
+}
+
+.SignUp {
+  display: flex;
+  flex-direction: column;
+  margin: 0 2vw;
+}
+
+.SignUp input {
+  margin-bottom: 2vw;
+  padding: 0.8vw;
+  font-size: 0.9vw;
+  width: 100%;
+}
+
+.SignUp > input {
+  margin-bottom: 2vw;
+}
+
+.SignUp > h2 {
+  margin-top: 2vw;
+}
+
+.SignUp > p {
+  margin-bottom: 0.8vw;
+}
+
+.SignUp > label:last-of-type {
+  margin-bottom: 0.7vw;
+  margin-top: 2vw;
+}
+
+.SignUp select {
+  margin: 1vw;
+  font-size: 0.9vw;
+}
+
+.SignUp-img {
+  height: 94vh;
+  width: 100%;
+  border-right: 0.1vw solid rgb(194, 194, 194);
+}
+
+.SignUp button {
+  width: 50%;
+  margin: 1vw auto 0 auto;
+}
