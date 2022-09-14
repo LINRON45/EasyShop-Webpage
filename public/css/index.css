@@ -40,6 +40,8 @@ nav {
 
 .Nav-bar {
   display: flex;
+  height: 3.7vw;
+
   list-style: none;
   padding: 0 5vw;
   font-family: "Orbitron", sans-serif;
@@ -51,9 +53,11 @@ nav {
   border-bottom: 0.1vw solid gainsboro;
 }
 
-.Nav-bar li {
+.Nav-bar > li {
+  display: inline-block;
   margin: 1vw 2vw;
   user-select: none;
+  height: 1vw;
 }
 
 .Nav-bar li:hover {
@@ -62,38 +66,39 @@ nav {
   color: red;
 }
 
-.Nav-bar li:active {
+.Nav-bar a:active {
   color: rgba(247, 136, 72, 0.993);
   transform: scale(1.2);
 }
 
-.Nav-bar > li:nth-last-child(3) {
+.Nav-bar > li:nth-last-child(4) {
   margin-right: auto;
 }
 
-/* #option9 {
+#profile {
   display: inline-block;
-  position: relative;
-  left: 41%;
-  margin-bottom: 0;
-  margin-top: .5vw;
 }
-#option9:active {
+
+#profile > p {
+  display: flex;
+  width: 3vw;
+  justify-content: space-between;
+}
+
+#profile:active {
   transform: none;
   color: inherit;
 }
-#option9:hover {
+#profile:hover {
   color: inherit;
   transform: none;
 }
 
-#option9:hover .dropdown {
+#profile:hover .dropdown {
   display: block;
 }
 
-#option9 span {
-  font-size: 20px;
-} */
+
 
 .dropdown {
   display: none;
@@ -144,13 +149,7 @@ nav {
   background-color: rgba(128, 128, 128, 0.397);
 }
 
-#option9 span {
-  position: absolute;
-  top: 10%;
-  right: 100%;
-  padding-bottom: 20px;
-  padding-right: 5px;
-}
+
 
 /* Logo of Business */
 
@@ -169,10 +168,11 @@ nav {
   text-align: center;
   font-size: 2vw;
   color: #e73852;
-  -webkit-text-stroke-width: .1vw;
+  -webkit-text-stroke-width: 0.1vw;
   -webkit-text-stroke-color: orangered;
-  text-shadow: .1vw .1vw .1vw gray, .1vw 2px .1vw gray, .1vw 3px .1vw gray,
-    .1vw 4px .1vw gray, .1vw 5px .1vw gray, .1vw 6px .1vw gray;
+  text-shadow: 0.1vw 0.1vw 0.1vw gray, 0.1vw 2px 0.1vw gray,
+    0.1vw 3px 0.1vw gray, 0.1vw 4px 0.1vw gray, 0.1vw 5px 0.1vw gray,
+    0.1vw 6px 0.1vw gray;
 }
 
 /* pages */

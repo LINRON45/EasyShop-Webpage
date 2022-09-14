@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { getCookie } from "react-use-cookie";
-import ShoppingCart from "./ShoppingCart";
+import ShoppingCart from "../components/Cart/ShoppingCart";
 import { getDocs, collection } from "firebase/firestore";
-import { db } from "../../services/firebase-config";
+import { db } from "../services/firebase-config";
 
 function UserCart() {
   const [files, setfiles] = useState([]);
@@ -19,10 +19,10 @@ function UserCart() {
     return arr;
   }
 
-  useEffect(() => {
-    const obj = getFiles();
-    setfiles(obj);
-  }, []);
+  // useEffect(() => {
+  //   const obj = getFiles();
+  //   setfiles(obj);
+  // }, []);
 
   console.log(files);
 

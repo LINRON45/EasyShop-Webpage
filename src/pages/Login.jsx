@@ -67,25 +67,27 @@ function Login(props) {
 
       setCookie("username", `${data.username}`);
       setCookie("uid", `${userID}`);
-      setCookie("state", true);
+      setCookie("loggedIn", true);
 
       usernameData = data.username;
-      console.log(userID);
+
+      props.showLogin(false);
+
+      return () => {
+        props.func(usernameData);
+        navigate("/");
+      };
     } catch (error) {
-      console.log(error);
+      setAlert(true);
+
+      settype("error");
+      setmessage("Attempt to login failed.");
+      return;
     }
-
-    props.showLogin(false);
-
-    return () => {
-      props.func(usernameData);
-      navigate("/");
-    };
   }
 
   function closeModal(event) {
     const target = event.target.id;
-    console.log(target);
     if (target === "loginModal" || target === "") {
       return;
     }
@@ -96,12 +98,6 @@ function Login(props) {
   return (
     <div id="loginOverlay" onClick={closeModal}>
       <div id="loginModal">
-        {alert && (
-          <>
-            <Alert severity={alerttype}>{message}</Alert>
-            <br />
-          </>
-        )}
         <h2>
           Log into
           <span>
@@ -109,6 +105,11 @@ function Login(props) {
             EasyShop
           </span>
         </h2>
+        {alert && (
+          <>
+            <Alert severity={alerttype}>{message}</Alert>
+          </>
+        )}
         <input
           onChange={handlechange}
           type="text"

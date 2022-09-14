@@ -15,62 +15,63 @@ import Sell from "./pages/Sell";
 import Contact from "./pages/Contact";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
-import Logout from "./components/Logout";
-import UserCart from "./components/Cart/Cart";
+import Profile from "./components/Profile";
+import UserCart from "./pages/Cart";
 import { getCookie, setCookie } from "react-use-cookie";
 
 function App() {
-
   const [showLogin, setShowLogin] = useState(false);
+  const [hideOptions, setHideOptions] = useState(true);
+  const [username, setUsername] = useState(null);
 
   let currentPath = useLocation();
   let navigate = useNavigate();
-  const loginState = getCookie("state")
-
+  const loginState = getCookie("loggedIn");
 
   useEffect(() => {
-    const cookie = getCookie("state");
-    if (
-      currentPath.pathname === "/signup" && cookie==="true"   ) {
-      navigate("/");
+    setUsername(getCookie("username"));
+    
+    console.log(username)
+    
+    if (loginState === "true") {
+      setHideOptions(false);
+    }else{
+      setHideOptions(true)
     }
 
-    // setCookie("state", false)
-  },[]);
+    if (currentPath.pathname === "/signup" && loginState === "true") {
+      navigate("/");
+    }
+  }, []);
 
   function loginstate(username) {
-    setCookie("state", true);
+    setCookie("loggedIn", true);
     setCookie("username", `${username}`);
-  }
-
-  function loginstatefalse() {
-    setCookie("username", "");
-    setCookie("state", false);
   }
 
   return (
     <div>
-      <nav >
+      <nav>
         <Logo />
         <ul className="Nav-bar">
-          <li id="option1">
+          <li>
             <Link to="/">Home</Link>
           </li>
-          <li id="option3">
+          <li>
             <Link to="/shop">Shop</Link>
           </li>
-          <li id="option4" hidden>
+          <li style={{ display: hideOptions && "none"}} >
             <Link to="/sell">Sell</Link>
           </li>
-          <li id="option2" hidden>
-            <Link to="/sales">My Sales</Link>
-          </li>
-          <li id="option5">
+          <li>
             <Link to="/contact">Contact</Link>
           </li>
 
+          <li  hidden={true}>
+            <Link hidden={true} to="/sales">Sales</Link>
+          </li>
           <li>
-            {loginState ==="false"? (
+            {loginState === "false" || !loginState ? (
               <Link to="/signup">Sign Up</Link>
             ) : (
               <Link to="/cart">Cart</Link>
@@ -78,10 +79,10 @@ function App() {
           </li>
 
           <li>
-            {loginState==="false" ? (
+            {loginState === "false" || !loginState ? (
               <a onClick={() => setShowLogin(true)}>Log In</a>
             ) : (
-              <Logout func={loginstatefalse} />
+              <Profile username={username} />
             )}
           </li>
         </ul>

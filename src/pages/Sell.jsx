@@ -7,7 +7,7 @@ import { getCookie } from "react-use-cookie";
 
 function Sell() {
   const [image, setImage] = useState(null);
-  const [button, setButton] = useState('Upload')
+  const [button, setButton] = useState("Upload");
 
   const [sellItem, setsellItem] = useState({
     id: "",
@@ -21,9 +21,8 @@ function Sell() {
     date: "",
   });
 
-
   //* Mark: check later *//
-  ( ()=>{
+  (() => {
     fetch(`http://worldtimeapi.org/api/timezone/America/St_Vincent`)
       .then((res) => res.json())
       .then((y) => y.datetime)
@@ -36,8 +35,7 @@ function Sell() {
           };
         });
       });
-  })()
-
+  })();
 
   function ImgChangeValue(event) {
     if (event.target.files[0]) {
@@ -45,8 +43,6 @@ function Sell() {
       setImage(file);
     }
   }
-
-
 
   async function ChangeValue(event) {
     const { name, value } = event.target;
@@ -60,51 +56,40 @@ function Sell() {
     });
   }
 
-
-
   const q = query(collection(db, "Users"));
   const currentUser = getCookie("username");
 
   const storageRef = ref(storage, `${currentUser}/${sellItem.id}`);
 
-
-
   async function CreateItem() {
     const querySnapshot = await getDocs(q);
 
     // Upload Image to Firebase Storage
-    querySnapshot.forEach(async (p) => {
-      const imageData = await getDownloadURL(storageRef)
-      
-      console.log(imageData)
-        setsellItem((prevValue) => {
-          return {
-            ...prevValue,
-            image: imageData,
-          };
-        });
+    querySnapshot.forEach(async () => {
+      const imageData = await getDownloadURL(storageRef);
+
+      console.log(imageData);
+      setsellItem((prevValue) => {
+        return {
+          ...prevValue,
+          image: imageData,
+        };
       });
+    });
 
-    setButton('Upload')
-
-
-    ;
+    setButton("Upload");
   }
 
+  // useEffect(()=>{
+  //    setDoc(doc(db, `Users/${currentUser}/Sales/${sellItem.id}`), {
+  //     ...sellItem,
+  //   });
+  // }, [])
 
+  const [buttonState, setState] = useState(null);
 
-  useEffect(()=>{
-     setDoc(doc(db, `Users/${currentUser}/Sales/${sellItem.id}`), {
-      ...sellItem,
-    });
-  }, [sellItem, currentUser])
-
-
-  const [buttonState, setState] = useState(null)
-
-  function uploadImg(event){
-
-    event.preventDefault()
+  function uploadImg(event) {
+    event.preventDefault();
     const uploadTask = uploadBytesResumable(storageRef, image);
 
     uploadTask.on(
@@ -113,21 +98,17 @@ function Sell() {
         var prog = Math.round(
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
         );
-        setButton( `Uploading...${prog}%`);        
-        setState("true")
+        setButton(`Uploading...${prog}%`);
+        setState("true");
       },
       (error) => console.log(error),
       () => {
-          window.alert(`finish uploading`)
-          setButton("Submit")
-          setState("")          
-
+        window.alert(`finish uploading`);
+        setButton("Submit");
+        setState("");
       }
     );
-
   }
-
-
 
   function Submitfunc(event) {
     event.preventDefault();
@@ -159,7 +140,12 @@ function Sell() {
           value={sellItem.itemName}
         />
         <div>
-          <input type="file" id="inp-img" accept="image/*" onChange={ImgChangeValue}></input>
+          <input
+            type="file"
+            id="inp-img"
+            accept="image/*"
+            onChange={ImgChangeValue}
+          ></input>
         </div>
 
         <section>
@@ -232,8 +218,7 @@ function Sell() {
           id="fab2"
           className="fab-but"
           variant="extended"
-          onClick={button === 'Submit'? Submitfunc : uploadImg}
-
+          onClick={button === "Submit" ? Submitfunc : uploadImg}
           disabled={buttonState}
         >
           {button}

@@ -118,9 +118,6 @@ function SignUp() {
       );
 
       const data = await res.data;
-
-      console.log(data);
-
       if (
         data.formatCheck === "false" ||
         data.freeCheck === "false" ||
