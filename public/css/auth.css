@@ -1,8 +1,9 @@
 /* Login*/
 #loginOverlay {
   position: fixed;
+  top: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   z-index: 1;
   display: flex;
   background-color: rgba(128, 128, 128, 0.653);
