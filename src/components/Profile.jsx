@@ -2,14 +2,18 @@ import React from "react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useNavigate } from "react-router-dom";
 import { setCookie } from "react-use-cookie";
-import {removeCookie} from "react-cookie";
 
 function Profile(props) {
   let navigate = useNavigate();
 
   function logoutFunc() {
-    removeCookie("username");
+    document.cookie =
+      "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = "uid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+    console.log(Date.now());
     setCookie("loggedIn", false);
+
     return navigate("/");
   }
 

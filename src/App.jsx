@@ -30,19 +30,25 @@ function App() {
 
   useEffect(() => {
     setUsername(getCookie("username"));
-    
-    console.log(username)
-    
+
+    console.log(username);
+
     if (loginState === "true") {
       setHideOptions(false);
-    }else{
-      setHideOptions(true)
+    } else {
+      setHideOptions(true);
+    }
+
+    if (loginState==="false" || !loginState) {
+      if(currentPath.pathname === "/sell" || currentPath.pathname === "/sales" || currentPath.pathname === "/cart"){
+        navigate("/")
+      }
     }
 
     if (currentPath.pathname === "/signup" && loginState === "true") {
       navigate("/");
     }
-  }, []);
+  }, [loginstate]);
 
   function loginstate(username) {
     setCookie("loggedIn", true);
@@ -60,15 +66,17 @@ function App() {
           <li>
             <Link to="/shop">Shop</Link>
           </li>
-          <li style={{ display: hideOptions && "none"}} >
+          <li style={{ display: hideOptions && "none" }}>
             <Link to="/sell">Sell</Link>
           </li>
           <li>
             <Link to="/contact">Contact</Link>
           </li>
 
-          <li  hidden={true}>
-            <Link hidden={true} to="/sales">Sales</Link>
+          <li hidden={true}>
+            <Link hidden={true} to="/sales">
+              Sales
+            </Link>
           </li>
           <li>
             {loginState === "false" || !loginState ? (
@@ -99,9 +107,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/cart" element={<UserCart />} />
       </Routes>
-    <div id="footer">
-
-    </div>
+      <div id="footer"></div>
     </div>
   );
 }

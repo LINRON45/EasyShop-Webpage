@@ -57,7 +57,7 @@ function Sell() {
   }
 
   const q = query(collection(db, "Users"));
-  const currentUser = getCookie("username");
+  const currentUser = getCookie("uid");
 
   const storageRef = ref(storage, `${currentUser}/${sellItem.id}`);
 
@@ -160,6 +160,8 @@ function Sell() {
             placeholder="Enter the selling price..."
             value={sellItem.price}
           />
+
+          {/* currency input should not exist as XCD is the main currency in svg */}
 
           <select
             onChange={ChangeValue}

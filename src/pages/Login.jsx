@@ -50,8 +50,6 @@ function Login(props) {
       return;
     }
 
-    let usernameData;
-
     try {
       const res = await signInWithEmailAndPassword(
         auth,
@@ -69,20 +67,14 @@ function Login(props) {
       setCookie("uid", `${userID}`);
       setCookie("loggedIn", true);
 
-      usernameData = data.username;
-
       props.showLogin(false);
-
-      return () => {
-        props.func(usernameData);
-        navigate("/");
-      };
+      props.func(data.username);
+      return navigate("/");
     } catch (error) {
       setAlert(true);
 
       settype("error");
       setmessage("Attempt to login failed.");
-      return;
     }
   }
 

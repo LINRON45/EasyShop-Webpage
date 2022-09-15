@@ -77,7 +77,9 @@
   display: block;
   margin-right: auto;
   width: 40vw;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
+  word-spacing: .3rem;
+  letter-spacing: .03rem;
 }
 
 #home-sec h1 {
