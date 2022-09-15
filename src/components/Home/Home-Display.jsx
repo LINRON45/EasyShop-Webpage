@@ -10,7 +10,7 @@ function Home_Display(props) {
 
   return (
     <div className="home-vid">
-      <video autoPlay muted loop>
+      <video width="100%"  autoPlay muted loop>
         <source src="https://i.imgur.com/z51dIUf.mp4" type="video/mp4"></source>
       </video>
 
@@ -24,7 +24,7 @@ function Home_Display(props) {
             id="start-button"
             variant="outlined"
             // add a path to sign up
-            onClick={() => navigate("/signup")}
+            onClick={navigate("/signup")}
           >
             Get Started
           </Button>

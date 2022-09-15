@@ -99,6 +99,9 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/cart" element={<UserCart />} />
       </Routes>
+    <div id="footer">
+
+    </div>
     </div>
   );
 }

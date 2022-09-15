@@ -1,13 +1,33 @@
 /* Contact */
-.Contact * {
-  margin: 20px 0;
+
+.Contact {
+  position: relative;
+  font-size: 1vw;
+  background-color: white;
+  border: 0.1vw solid rgba(73, 73, 73, 0.062);
+}
+
+.Contact form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: white;
+}
+
+.Contact textarea {
+  margin: 2vh 0;
   width: 50vw;
-  padding: .8vw;
-  font-size: 18px;
-  color: black;
+  padding: 0.8vw;
+  font-weight: bold;
+  background-color: white;
 }
 
 .Contact input {
+  margin: 2vh 0;
+  width: 50vw;
+  padding: 0.8vw;
   font-weight: bold;
   background-color: white;
 }
@@ -25,16 +45,4 @@
 
 .Contact form {
   text-align: center;
-}
-
-.Contact {
-  position: relative;
-  display: flex;
-  width: 100vw;
-  height: 100vh;
-  margin: auto;
-  align-items: center;
-  justify-content: center;
-  background-color: white;
-  border: 1px solid rgba(73, 73, 73, 0.062);
 }

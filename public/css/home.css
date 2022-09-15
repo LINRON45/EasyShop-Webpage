@@ -1,48 +1,85 @@
 /* Home page video & button */
 
 .home-vid {
-    text-align: center;
-    width: 100%;
-  }
-  
-  .home-vid video {
-    height: 100vh;
-    object-fit: fill;
-    filter: contrast(70%) brightness(100%);
-  }
-  
-  .home-overlay {
-    position: relative;
-    margin-top: -22vw;
-    text-align: center;
-    width: 100vw;
-    height: auto;
-  }
-  
-  #start-button {
-    padding: 1vw;
-    border-radius: 4vw;
-    border-width: .3vw;
-    border-color: inherit;
-    font-size: 1.3vw;
-    font-weight: 700;
-    color: rgb(35, 104, 255);
-    word-spacing: 20%;
-    letter-spacing: 95%;
-    background-color: rgba(240, 255, 255, 0.336);
-  }
-  
-  #start-button:hover {
-    background-color: lightblue;
-  }
-  
-  #video-text {
-    align-self: center;
-    color: rgb(241, 255, 254);
-    font-size: 3vw;
-    font-family: "Bangers", cursive;
-    margin-bottom: 3vw;
-    word-spacing: .3vw;
-    letter-spacing: 0.1vw;
-    text-shadow: .8vw .2vw .8vw rgb(58, 58, 58);
-  }
+  text-align: center;
+  height: 93.59vh;
+}
+
+.home-vid video {
+  height: 100%;
+  object-fit: fill;
+  filter: contrast(70%) brightness(100%);
+}
+
+.home-overlay {
+  position: relative;
+  margin-top: -22vw;
+  text-align: center;
+}
+
+#start-button {
+  padding: 1vw;
+  border-radius: 4vw;
+  border-width: 0.3vw;
+  border-color: inherit;
+  font-size: 1.3vw;
+  font-weight: 700;
+  color: rgb(35, 104, 255);
+  word-spacing: 20%;
+  letter-spacing: 95%;
+  background-color: rgba(240, 255, 255, 0.336);
+}
+
+#start-button:hover {
+  background-color: lightblue;
+}
+
+#video-text {
+  align-self: center;
+  color: rgb(241, 255, 254);
+  font-size: 3vw;
+  font-family: "Bangers", cursive;
+  margin-bottom: 3vw;
+  word-spacing: 0.3vw;
+  letter-spacing: 0.1vw;
+  text-shadow: 0.8vw 0.2vw 0.8vw rgb(58, 58, 58);
+}
+
+#home-sec {
+  position: relative;
+  width: 100vw;
+  padding: 0 7vw;
+  background-image: url("https://www.transparenttextures.com/patterns/mirrored-squares.png");
+}
+
+#home-sec > div {
+  padding: 4vw 0;
+  display: flex;
+  flex-direction: row;
+}
+
+#home-sec > div:last-child {
+  flex-direction: row-reverse;
+  justify-content: left;
+}
+
+#home-sec > div img {
+  margin-right: auto;
+  width: 40vw;
+  box-shadow: 0.5vw 0.5vw 1vw rgb(67, 66, 66);
+}
+
+#home-sec > div:last-child img{
+  box-shadow: -0.5vw 0.5vw 1vw rgb(67, 66, 66);
+}
+
+#home-sec section {
+  display: block;
+  margin-right: auto;
+  width: 40vw;
+  font-size: 1.2rem;
+}
+
+#home-sec h1 {
+  margin-bottom: 1vw;
+}

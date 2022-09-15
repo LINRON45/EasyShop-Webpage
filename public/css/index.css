@@ -15,7 +15,6 @@
 html,
 body {
   background-color: white;
-  background-image: url("https://www.transparenttextures.com/patterns/white-tiles.png");
   font-family: "Roboto Slab", serif;
   width: 100vw;
 }
@@ -33,8 +32,7 @@ textarea:focus {
 /* Navigation bar */
 nav {
   width: 100%;
-  position: fixed;
-  top: 0;
+  position: relative;
   z-index: 1; /* Random value high enough to not cause the video to overlap because of fixed position */
 }
 
@@ -98,8 +96,6 @@ nav {
   display: block;
 }
 
-
-
 .dropdown {
   display: none;
   position: absolute;
@@ -149,8 +145,6 @@ nav {
   background-color: rgba(128, 128, 128, 0.397);
 }
 
-
-
 /* Logo of Business */
 
 .logo:hover {
@@ -175,27 +169,38 @@ nav {
     0.1vw 6px 0.1vw gray;
 }
 
+/* Footer */
+#footer {
+  position: relative;
+  height: 20vh;
+  width: 100%;
+  background-color: rgb(241, 41, 41);
+}
+
 /* pages */
+
+.heading {
+  text-align: left;
+  color: red;
+  text-shadow: 2px 0px 2px black;
+}
 
 .Sales,
 .Shop,
 .Sell,
 .Contact,
-.SignUp,
-.Login,
 .Cart {
-  background-color: white;
+  background-color: rgba(238, 238, 238, 0.524);
+  background-image: url("https://www.transparenttextures.com/patterns/mirrored-squares.png");
   color: black;
 }
 
 .Shop,
 .Sales,
-.Cart,
-.SignUp-page {
+.Cart {
   position: relative;
-  padding-top: 3.5vw;
   width: 100vw;
-  height: 94vh;
+  height: 100vh;
 }
 
 /* sell form and contact button */

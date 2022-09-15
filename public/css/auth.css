@@ -11,9 +11,13 @@
 #loginModal {
   width: 42vw;
   height: 40vh;
-  background: radial-gradient(rgb(204, 204, 204) ,rgb(255, 193, 85) 30%, rgb(249, 93, 93));
+  background: radial-gradient(
+    rgb(204, 204, 204),
+    rgb(255, 193, 85) 30%,
+    rgb(249, 93, 93)
+  );
   filter: saturate(105%);
-  box-shadow: 0.5vw 0.3vw .5vw rgb(67, 66, 66);
+  box-shadow: 0.5vw 0.3vw 0.5vw rgb(67, 66, 66);
 
   margin: auto;
   z-index: 1;
@@ -52,7 +56,6 @@
 
 .SignUp-page {
   display: grid;
-  background-color: white;
   grid-template-columns: 70% auto;
 }
 

@@ -1,12 +1,12 @@
 import React from "react";
 import HomeDisplay from "../components/Home/Home-Display";
-import HomeItems from "../components/Home/Rest-of-Home";
+import HomeSection from "../components/Home/HomeSection";
 
-function Home(props) {
+function Home() {
   return (
-    <div>
+    <div id="homePage">
       <HomeDisplay />
-      <HomeItems />
+      <HomeSection/>
     </div>
   );
 }
