@@ -4,43 +4,69 @@ import { collection, query, doc, setDoc, getDocs } from "firebase/firestore";
 import { db, storage } from "../services/firebase-config";
 import { Fab } from "@mui/material";
 import { getCookie } from "react-use-cookie";
+import axios from "axios";
 
 function Sell() {
   const [image, setImage] = useState(null);
   const [button, setButton] = useState("Upload");
 
   const [sellItem, setsellItem] = useState({
-    id: "",
     itemName: "",
-    price: "",
-    currency: "XCD",
     image: "",
-    phone: "",
+    number: "",
+    country: "",
+    date: "",
+    currency: "",
+    price: "",
     shippingFee: "",
     description: "",
-    date: "",
   });
 
-  //* Mark: check later *//
-  (() => {
-    fetch(`http://worldtimeapi.org/api/timezone/America/St_Vincent`)
-      .then((res) => res.json())
-      .then((y) => y.datetime)
-      .then((date) => JSON.stringify(date))
-      .then((str) => {
-        setsellItem((prevVal) => {
-          return {
-            ...prevVal,
-            date: `${str}`,
-          };
-        });
-      });
-  })();
+  let dict = {};
+  const [countries, setCountries] = useState([]);
+  const [currencies, setCurrencies] = useState([]);
+  const [preview, setPreview] = useState(
+    "https://assets.humix.com/nopreview.png"
+  );
+
+  useEffect(async () => {
+    const countryRes = await axios.get("https://restcountries.com/v2/all");
+
+    const data = countryRes.data;
+
+    data.forEach((country) => {
+      // console.log(country.name)
+      setCountries((prev) => [...prev, country.name]);
+    });
+
+    const currencyRes = await axios.get(
+      "https://restcountries.com/v3.1/currency/dollar"
+    );
+
+    const currencyData = currencyRes.data;
+
+    currencyData.forEach((currency) => {
+      const newData = currency.currencies;
+
+      for (const [key, value] of Object.entries(newData)) {
+        if (dict[key]) {
+          continue;
+        }
+
+        dict[key] = value.name;
+        setCurrencies((prev) => [...prev, key]);
+      }
+    });
+
+    console.log(dict);
+    console.log(countries);
+  }, []);
 
   function ImgChangeValue(event) {
     if (event.target.files[0]) {
       const file = event.target.files[0];
       setImage(file);
+      setPreview(URL.createObjectURL(file));
     }
   }
 
@@ -113,24 +139,31 @@ function Sell() {
   function Submitfunc(event) {
     event.preventDefault();
 
-    // if (
-    //   sellItem.itemName === "" ||
-    //   sellItem.price === "" ||
-    //   sellItem.phone === ""
-    // ) {
-    // return;
-    // }else{
-
-    // }
-
     CreateItem();
   }
 
   return (
-    <div className="Sell">
+    <div className="Sell" id="sell">
       <form className="sell-form">
-        <h1 className="heading">Product Form</h1>
-        <hr></hr>
+        <section id="img-sec">
+          <button
+            onClick={(event) => {
+              document.getElementById("inp-img").click();
+              event.preventDefault();
+            }}
+          >
+            click here
+          </button>
+          <input
+            type="file"
+            id="inp-img"
+            accept="image/png, image/jpeg"
+            onChange={ImgChangeValue}
+            hidden
+          />
+
+          <img id="preview" src={preview} alt={sellItem.itemName} />
+        </section>
 
         <input
           onChange={ChangeValue}
@@ -139,14 +172,13 @@ function Sell() {
           placeholder="Enter the name of the item..."
           value={sellItem.itemName}
         />
-        <div>
-          <input
-            type="file"
-            id="inp-img"
-            accept="image/*"
-            onChange={ImgChangeValue}
-          ></input>
-        </div>
+
+        <select id="country">
+          <option>select a country</option>
+          {countries.map((country) => {
+            return <option value={country}>{country}</option>;
+          })}
+        </select>
 
         <section>
           <input
@@ -161,51 +193,37 @@ function Sell() {
             value={sellItem.price}
           />
 
-          {/* currency input should not exist as XCD is the main currency in svg */}
-
-          <select
+          <input
+            id="shipping-fee"
             onChange={ChangeValue}
-            name="currency"
-            id="currency"
-            value={sellItem.currency}
-          >
-            <option>XCD</option>
-            <option>USD</option>
-            <option>AWG</option>
-            <option>BSD</option>
-            <option>BBD</option>
-            <option>BZD</option>
-            <option>BMD</option>
-            <option>KYD</option>
-            <option>CUC</option>
-            <option>ANG</option>
-            <option>EUR</option>
-            <option>GYD</option>
-            <option>HTG </option>
-            <option>JMD</option>
-            <option>SRD</option>
-            <option>TTD</option>
+            type="number"
+            name="shippingFee"
+            min="0.00"
+            max="100000.00"
+            step="0.01"
+            placeholder="Enter Shipping Fee..."
+          />
+
+          <select id="currency">
+            {currencies.map((currency) => {
+              return <option value={currency}>{currency}</option>;
+            })}
           </select>
         </section>
 
-        <input
-          onChange={ChangeValue}
-          type="tel"
-          name="phone"
-          placeholder="Enter your number..."
-        />
+        <section>
+          <p>Shipping Available?</p>
+          <input type="radio" id="ship-y" value="Yes" />
+          <label for="ship-y">Yes</label>
 
-        {/* Can be replaced with availability of shipping to x region/country / posting services if location in x country.
-    Add shipping fee input area */}
-        <input
-          onChange={ChangeValue}
-          type="number"
-          name="shippingFee"
-          min="0.00"
-          max="100000.00"
-          step="0.01"
-          placeholder="Enter Shipping Fee..."
-        />
+          <input type="radio" id="ship-n" value="No" />
+          <label for="ship-n">No</label>
+        </section>
+
+        <section>
+          <h1>Shipping location</h1>
+          <button>Add a Location</button>
+        </section>
 
         <div>
           <textarea

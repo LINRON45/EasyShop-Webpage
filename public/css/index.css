@@ -73,76 +73,27 @@ nav {
   margin-right: auto;
 }
 
-#profile {
-  display: inline-block;
-}
+
+
+
 
 #profile > p {
   display: flex;
   width: 3vw;
+  font-size: 1vw;
   justify-content: space-between;
+  align-items: center;
 }
 
-#profile:active {
+li:has(#profile):hover {
   transform: none;
   color: inherit;
 }
-#profile:hover {
-  color: inherit;
-  transform: none;
-}
 
-#profile:hover .dropdown {
-  display: block;
-}
 
-.dropdown {
-  display: none;
-  position: absolute;
-  z-index: 1;
-  transform: none;
-  color: inherit;
-  font-size: 12px;
-  padding: 5px;
-  width: 80px;
-  height: 50px;
-  margin: 0;
-}
 
-.dropdown ul {
-  padding: 5px;
-  top: 0%;
-  right: 80%;
-  background-color: whitesmoke;
+.dropdown-content{
   list-style: none;
-}
-
-.dropdown li {
-  margin: 0.2vw;
-  padding-bottom: 0;
-  background-color: whitesmoke;
-  font-size: 14px;
-}
-
-.dropdown-content {
-  position: relative;
-  width: 95px;
-}
-
-#dropdown-list {
-  padding: 5px;
-  width: 80px;
-}
-
-#dropdown-list:active {
-  color: black;
-  transform: none;
-}
-
-#dropdown-list:hover {
-  color: black;
-  transform: none;
-  background-color: rgba(128, 128, 128, 0.397);
 }
 
 /* Logo of Business */

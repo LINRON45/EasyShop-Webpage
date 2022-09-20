@@ -90,7 +90,7 @@
   margin-top: 2vw;
 }
 
-.SignUp select {
+.SignUp > select {
   margin: 1vw;
   font-size: 0.9vw;
 }
@@ -101,7 +101,7 @@
   border-right: 0.1vw solid rgb(194, 194, 194);
 }
 
-.SignUp button {
+.SignUp > button {
   width: 50%;
   margin: 1vw auto 0 auto;
 }
