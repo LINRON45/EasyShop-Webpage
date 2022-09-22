@@ -19,6 +19,10 @@ body {
   width: 100vw;
 }
 
+button:hover{
+  cursor: pointer;
+}
+
 a {
   text-decoration: none;
   color: inherit;
@@ -35,6 +39,7 @@ nav {
   position: relative;
   z-index: 1; /* Random value high enough to not cause the video to overlap because of fixed position */
 }
+
 
 .Nav-bar {
   display: flex;

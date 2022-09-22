@@ -6,6 +6,7 @@ import { db } from "../services/firebase-config";
 function Shop() {
   const [itemsArr, setItemsArr] = useState([]);
 
+
   useEffect(() => {
     const loadData = async () => {
       const data = [];

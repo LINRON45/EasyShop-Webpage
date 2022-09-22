@@ -7,26 +7,30 @@ import { getCookie } from "react-use-cookie";
 import axios from "axios";
 
 function Sell() {
-  const [image, setImage] = useState(null);
-  const [button, setButton] = useState("Upload");
+  const uid = getCookie("uid");
+
+  const [image, setImage] = useState("");
+  const [button, setButton] = useState("Submit");
+  const [buttonState, setState] = useState(false);
 
   const [sellItem, setsellItem] = useState({
     itemName: "",
     image: "",
-    number: "",
+    condition: "",
     country: "",
-    date: "",
-    currency: "",
-    price: "",
-    shippingFee: "",
-    description: "",
+    currency: "USD",
+    // shippingFee: null,
+    // deliveryFee: null,
+    // shippingList: [],
+    // description: "",
   });
+  const storageRef = ref(storage, `${uid}/${sellItem.itemName}`);
 
   let dict = {};
   const [countries, setCountries] = useState([]);
   const [currencies, setCurrencies] = useState([]);
   const [preview, setPreview] = useState(
-    "https://assets.humix.com/nopreview.png"
+    "https://www.insticc.org/node/TechnicalProgram/56e7352809eb881d8c5546a9bbf8406e.png"
   );
 
   useEffect(async () => {
@@ -35,7 +39,6 @@ function Sell() {
     const data = countryRes.data;
 
     data.forEach((country) => {
-      // console.log(country.name)
       setCountries((prev) => [...prev, country.name]);
     });
 
@@ -57,12 +60,9 @@ function Sell() {
         setCurrencies((prev) => [...prev, key]);
       }
     });
-
-    console.log(dict);
-    console.log(countries);
   }, []);
 
-  function ImgChangeValue(event) {
+  function imageUpload(event) {
     if (event.target.files[0]) {
       const file = event.target.files[0];
       setImage(file);
@@ -70,52 +70,20 @@ function Sell() {
     }
   }
 
-  async function ChangeValue(event) {
+  function saveItemValues(event) {
     const { name, value } = event.target;
 
     setsellItem((prevValue) => {
       return {
         ...prevValue,
         [name]: value,
-        id: new Date().getTime(),
       };
     });
+
+    console.log(sellItem);
   }
 
-  const q = query(collection(db, "Users"));
-  const currentUser = getCookie("uid");
-
-  const storageRef = ref(storage, `${currentUser}/${sellItem.id}`);
-
-  async function CreateItem() {
-    const querySnapshot = await getDocs(q);
-
-    // Upload Image to Firebase Storage
-    querySnapshot.forEach(async () => {
-      const imageData = await getDownloadURL(storageRef);
-
-      console.log(imageData);
-      setsellItem((prevValue) => {
-        return {
-          ...prevValue,
-          image: imageData,
-        };
-      });
-    });
-
-    setButton("Upload");
-  }
-
-  // useEffect(()=>{
-  //    setDoc(doc(db, `Users/${currentUser}/Sales/${sellItem.id}`), {
-  //     ...sellItem,
-  //   });
-  // }, [])
-
-  const [buttonState, setState] = useState(null);
-
-  function uploadImg(event) {
-    event.preventDefault();
+  function uploadImg() {
     const uploadTask = uploadBytesResumable(storageRef, image);
 
     uploadTask.on(
@@ -124,41 +92,56 @@ function Sell() {
         var prog = Math.round(
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
         );
+        setState(true);
         setButton(`Uploading...${prog}%`);
-        setState("true");
+
+        switch (snapshot.state) {
+          case "paused":
+            console.log("Upload is paused");
+            break;
+          case "running":
+            console.log("Upload is running");
+            break;
+        }
       },
-      (error) => console.log(error),
-      () => {
-        window.alert(`finish uploading`);
-        setButton("Submit");
+      (error) => console.error(error),
+
+      async () => {
+        const imageURL = await getDownloadURL(uploadTask.snapshot.ref);
+        console.log(imageURL);
+
+        // const imageURL = await getDownloadURL(
+        //   ref(storage, `${uid}/${sellItem.itemName}`)
+        // );
+
+        setsellItem((prevVal) => {
+          return { ...prevVal, image: imageURL };
+        });
+
         setState("");
+        setDoc(doc(db, `Users/${uid}/Sales/${sellItem.itemName}`), {
+          ...sellItem,
+          date: Date().toString(),
+          image: imageURL,
+        });
+
+        setButton("Submit");
       }
     );
   }
 
-  function Submitfunc(event) {
-    event.preventDefault();
-
-    CreateItem();
-  }
-
   return (
     <div className="Sell" id="sell">
-      <form className="sell-form">
+      <form className="sell-form" onSubmit={(e) => e.preventDefault()}>
         <section id="img-sec">
-          <button
-            onClick={(event) => {
-              document.getElementById("inp-img").click();
-              event.preventDefault();
-            }}
-          >
-            click here
+          <button onClick={() => document.getElementById("inp-img").click()}>
+            Upload Image
           </button>
           <input
             type="file"
             id="inp-img"
             accept="image/png, image/jpeg"
-            onChange={ImgChangeValue}
+            onChange={imageUpload}
             hidden
           />
 
@@ -166,36 +149,61 @@ function Sell() {
         </section>
 
         <input
-          onChange={ChangeValue}
+          onChange={saveItemValues}
           type="text"
           name="itemName"
           placeholder="Enter the name of the item..."
           value={sellItem.itemName}
         />
 
-        <select id="country">
-          <option>select a country</option>
-          {countries.map((country) => {
-            return <option value={country}>{country}</option>;
+        <select id="country" name="country" onChange={saveItemValues}>
+          <option disabled selected>
+            {" "}
+            Select Country of Manufacture
+          </option>
+          {countries.map((country, index) => {
+            return (
+              <option key={index} value={country}>
+                {country}
+              </option>
+            );
           })}
         </select>
 
-        <section>
+        <ul id="transport-opt">
+          <li>
+            <p>Is Shipping Available?</p>
+            <input type="radio" id="ship-y" name="ship" value="Yes" />
+            <label htmlFor="ship-y">Yes</label>
+
+            <input type="radio" id="ship-n" name="ship" value="No" />
+            <label htmlFor="ship-n">No</label>
+          </li>
+
+          <li>
+            <p>Is Delivery Available?</p>
+            <input type="radio" id="delivery-y" name="delivery" value="Yes" />
+            <label htmlFor="delivery-y">Yes</label>
+            <input type="radio" id="delivery-n" name="delivery" value="No" />
+            <label htmlFor="delivery-n">No</label>
+          </li>
+        </ul>
+
+        <section id="pricing">
           <input
             id="sell-price"
-            onChange={ChangeValue}
+            onChange={saveItemValues}
             type="number"
             name="price"
             min="0.00"
             max="100000.00"
             step="0.01"
             placeholder="Enter the selling price..."
-            value={sellItem.price}
           />
 
           <input
             id="shipping-fee"
-            onChange={ChangeValue}
+            onChange={saveItemValues}
             type="number"
             name="shippingFee"
             min="0.00"
@@ -204,20 +212,26 @@ function Sell() {
             placeholder="Enter Shipping Fee..."
           />
 
-          <select id="currency">
-            {currencies.map((currency) => {
-              return <option value={currency}>{currency}</option>;
+          <input
+            id="delivery-fee"
+            onChange={saveItemValues}
+            type="number"
+            name="deliveryFee"
+            min="0.00"
+            max="100000.00"
+            step="0.01"
+            placeholder="Enter Delivery Fee..."
+          />
+
+          <select id="currency" onChange={saveItemValues}>
+            {currencies.map((currency, index) => {
+              return (
+                <option key={index} value={currency}>
+                  {currency}
+                </option>
+              );
             })}
           </select>
-        </section>
-
-        <section>
-          <p>Shipping Available?</p>
-          <input type="radio" id="ship-y" value="Yes" />
-          <label for="ship-y">Yes</label>
-
-          <input type="radio" id="ship-n" value="No" />
-          <label for="ship-n">No</label>
         </section>
 
         <section>
@@ -227,7 +241,7 @@ function Sell() {
 
         <div>
           <textarea
-            onChange={ChangeValue}
+            onChange={saveItemValues}
             rows="6"
             name="description"
             placeholder="Description..."
@@ -238,7 +252,9 @@ function Sell() {
           id="fab2"
           className="fab-but"
           variant="extended"
-          onClick={button === "Submit" ? Submitfunc : uploadImg}
+          onClick={() => {
+            uploadImg();
+          }}
           disabled={buttonState}
         >
           {button}
