@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { collection, query, doc, setDoc, getDocs } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { db, storage } from "../services/firebase-config";
 import { Fab } from "@mui/material";
 import { getCookie } from "react-use-cookie";
 import axios from "axios";
+import ShippingPlaces from "../components/Sell/ShippingPlaces";
 
 function Sell() {
   const uid = getCookie("uid");
@@ -12,6 +13,10 @@ function Sell() {
   const [image, setImage] = useState("");
   const [button, setButton] = useState("Submit");
   const [buttonState, setState] = useState(false);
+  const [showFees, setShowFees] = useState({
+    shipping: false,
+    delivering: false,
+  });
 
   const [sellItem, setsellItem] = useState({
     itemName: "",
@@ -26,7 +31,7 @@ function Sell() {
   });
   const storageRef = ref(storage, `${uid}/${sellItem.itemName}`);
 
-  let dict = {};
+  let countryDict = {};
   const [countries, setCountries] = useState([]);
   const [currencies, setCurrencies] = useState([]);
   const [preview, setPreview] = useState(
@@ -52,11 +57,11 @@ function Sell() {
       const newData = currency.currencies;
 
       for (const [key, value] of Object.entries(newData)) {
-        if (dict[key]) {
+        if (countryDict[key]) {
           continue;
         }
 
-        dict[key] = value.name;
+        countryDict[key] = value.name;
         setCurrencies((prev) => [...prev, key]);
       }
     });
@@ -110,10 +115,6 @@ function Sell() {
         const imageURL = await getDownloadURL(uploadTask.snapshot.ref);
         console.log(imageURL);
 
-        // const imageURL = await getDownloadURL(
-        //   ref(storage, `${uid}/${sellItem.itemName}`)
-        // );
-
         setsellItem((prevVal) => {
           return { ...prevVal, image: imageURL };
         });
@@ -128,6 +129,18 @@ function Sell() {
         setButton("Submit");
       }
     );
+  }
+
+  function test(e) {
+    const value = e.target.checked;
+
+    const name = e.target.id;
+
+    setShowFees((prev) => {
+      return { ...prev, [name]: value };
+    });
+
+    console.log(value);
   }
 
   return (
@@ -156,11 +169,13 @@ function Sell() {
           value={sellItem.itemName}
         />
 
-        <select id="country" name="country" onChange={saveItemValues}>
-          <option disabled selected>
-            {" "}
-            Select Country of Manufacture
-          </option>
+        <select
+          id="country"
+          name="country"
+          onChange={saveItemValues}
+          defaultValue="Select Country of Manufacture"
+        >
+          <option disabled>Select Country of Manufacture</option>
           {countries.map((country, index) => {
             return (
               <option key={index} value={country}>
@@ -170,24 +185,36 @@ function Sell() {
           })}
         </select>
 
-        <ul id="transport-opt">
-          <li>
-            <p>Is Shipping Available?</p>
-            <input type="radio" id="ship-y" name="ship" value="Yes" />
-            <label htmlFor="ship-y">Yes</label>
+        <select
+          id="select-condition"
+          name="condition"
+          onChange={saveItemValues}
+          defaultValue="Select Item Condition"
+        >
+          <option disabled>Select Item Condition</option>
+          <option>New</option>
+          <option>Very Good</option>
+          <option>Good </option>
+          <option>Acceptable</option>
+          <option>Poor</option>
+        </select>
 
-            <input type="radio" id="ship-n" name="ship" value="No" />
-            <label htmlFor="ship-n">No</label>
-          </li>
+        <section id="transport-opt">
+          <div>
+            <label htmlFor="shipping">Shipping Available</label>
+            <input type="checkbox" id="shipping" name="ship" onClick={test} />
+          </div>
 
-          <li>
-            <p>Is Delivery Available?</p>
-            <input type="radio" id="delivery-y" name="delivery" value="Yes" />
-            <label htmlFor="delivery-y">Yes</label>
-            <input type="radio" id="delivery-n" name="delivery" value="No" />
-            <label htmlFor="delivery-n">No</label>
-          </li>
-        </ul>
+          <div>
+            <label htmlFor="delivering">Delivery Available</label>
+            <input
+              type="checkbox"
+              id="delivering"
+              name="delivery"
+              onClick={test}
+            />
+          </div>
+        </section>
 
         <section id="pricing">
           <input
@@ -201,27 +228,30 @@ function Sell() {
             placeholder="Enter the selling price..."
           />
 
-          <input
-            id="shipping-fee"
-            onChange={saveItemValues}
-            type="number"
-            name="shippingFee"
-            min="0.00"
-            max="100000.00"
-            step="0.01"
-            placeholder="Enter Shipping Fee..."
-          />
-
-          <input
-            id="delivery-fee"
-            onChange={saveItemValues}
-            type="number"
-            name="deliveryFee"
-            min="0.00"
-            max="100000.00"
-            step="0.01"
-            placeholder="Enter Delivery Fee..."
-          />
+          {showFees.shipping && (
+            <input
+              id="shipping-fee"
+              onChange={saveItemValues}
+              type="number"
+              name="shippingFee"
+              min="0.00"
+              max="100000.00"
+              step="0.01"
+              placeholder="Enter Shipping Fee..."
+            />
+          )}
+          {showFees.delivering && (
+            <input
+              id="delivery-fee"
+              onChange={saveItemValues}
+              type="number"
+              name="deliveryFee"
+              min="0.00"
+              max="100000.00"
+              step="0.01"
+              placeholder="Enter Delivery Fee..."
+            />
+          )}
 
           <select id="currency" onChange={saveItemValues}>
             {currencies.map((currency, index) => {
@@ -234,10 +264,14 @@ function Sell() {
           </select>
         </section>
 
-        <section>
-          <h1>Shipping location</h1>
-          <button>Add a Location</button>
-        </section>
+        {showFees.shipping && <ShippingPlaces countries={countries} />}
+        {showFees.delivering && (
+          <input
+            type="tel"
+            name="phone"
+            placeholder="Enter your delivery number"
+          />
+        )}
 
         <div>
           <textarea

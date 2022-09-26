@@ -4,9 +4,9 @@ import { doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../services/firebase-config";
 
 function ShoppingCart(props) {
-  const user = getCookie("username");
+  const uid = getCookie("uid");
 
-  const fileRef = doc(db, `Users/${user}/Cart`, `${props.id}`);
+  const fileRef = doc(db, `Users/${uid}/Cart`, `${props.id}`);
 
   async function increaseQuantity() {
     await updateDoc(fileRef, {
@@ -23,7 +23,7 @@ function ShoppingCart(props) {
   }
 
   async function removeItem() {
-    await deleteDoc(doc(db, `Users/${user}/Cart`, `${props.id}`));
+    await deleteDoc(doc(db, `Users/${uid}/Cart`, `${props.id}`));
   }
 
   return (

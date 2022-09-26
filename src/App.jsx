@@ -34,7 +34,7 @@ function App() {
     console.log(username);
 
     if (loginState === "true") {
-      setHideOptions(false);
+      setHideOptions("");
     } else {
       setHideOptions(true);
     }
@@ -73,8 +73,8 @@ function App() {
             <Link to="/contact">Contact</Link>
           </li>
 
-          <li hidden={true}>
-            <Link hidden={true} to="/sales">
+          <li hidden={hideOptions}>
+            <Link hidden={hideOptions} to="/sales">
               Sales
             </Link>
           </li>

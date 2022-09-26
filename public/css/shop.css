@@ -7,21 +7,10 @@
 /* Shop Items */
 
 .items {
-  height: auto;
-  width: 290px;
+  width: 90vw;
   background-color: rgb(255, 160, 105);
-  text-align: center;
-  margin: 30px;
-  border: 5px solid rgb(165, 165, 165);
-  border-radius: 20px;
-  color: black;
 }
 
-.items div {
-  display: flex;
-  flex-direction: column;
-  margin: 20px 40px 20px 40px;
-}
 
 .items div button {
   margin: 5px;
@@ -30,7 +19,7 @@
 }
 
 .items p {
-  text-align: left;
+  float: right;
   margin-left: 30px;
   font-size: 16px;
   font-weight: bold;
@@ -40,16 +29,8 @@
 .items-img {
   border: 5px solid rgba(255, 255, 255, 0.76);
   padding: 1px;
-  height: 250px;
-  width: 250px;
+  height: 20vw;
   margin-top: 20px;
-  margin: 20px 10px;
   border-radius: 20px;
 }
 
-.list-items {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-}

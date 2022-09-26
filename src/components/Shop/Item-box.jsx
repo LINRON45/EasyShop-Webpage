@@ -4,10 +4,13 @@ import { setDoc, doc } from "firebase/firestore";
 import { db } from "../../services/firebase-config";
 
 function Item_box(props) {
-  const user = getCookie("username");
+  const details = props.Description;
+  const shipping = props.Shipping;
+  const delivery = props.Delivery;
+  const uid = getCookie("uid");
 
   async function toCart() {
-    await setDoc(doc(db, `Users/${user}/Cart/${props.id}`), {
+    await setDoc(doc(db, `Users/${uid}/Cart/${props.Name}`), {
       ...props.Obj,
       quantity: 1,
     });
@@ -23,24 +26,24 @@ function Item_box(props) {
         }
         alt={props.Name}
       />
-      <p>Product: {props.Name}</p>
-      <p>Price: $ {props.Price}</p>
+
       <p>
-        {props.Shipping === "0"
-          ? "Free Shipping"
-          : `Shipping Price: $ ${props.Shipping}`}
+        <h3>{props.Name}</h3>
+        Price: $ {props.Price} {props.Currency}
+        Condition: {props.Condition}
       </p>
-      <div>
-        <button className={props.id} onClick={toCart}>
+      <button className={props.id} onClick={toCart}>
           Add to Cart
         </button>
+      {/* <div>
+       
         <button
           className={props.id}
           onClick={(event) => console.log(event.target.className)}
         >
           See more details
         </button>
-      </div>
+      </div> */}
     </div>
   );
 }

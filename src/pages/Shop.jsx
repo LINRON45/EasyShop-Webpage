@@ -24,7 +24,7 @@ function Shop() {
         return data;
       };
       const result = await loadItems();
-      console.log("Result", result);
+      // console.log("Result", result);
       return result;
     };
     loadData();
@@ -50,7 +50,6 @@ function Shop() {
 
   return (
     <div className="Shop">
-      <h1 className="heading">The Shop</h1>
       <div className="list-items">
         {itemsArr instanceof Array && itemsArr.length
           ? itemsArr.map(createItembox)

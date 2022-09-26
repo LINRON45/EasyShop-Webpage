@@ -6,11 +6,11 @@ import { db } from "../services/firebase-config";
 
 function UserCart() {
   const [files, setfiles] = useState([]);
-  const user = getCookie("username");
+  const uid = getCookie("uid");
 
   async function getFiles() {
     const arr = [];
-    const allCart = await getDocs(collection(db, `Users/${user}/Cart`));
+    const allCart = await getDocs(collection(db, `Users/${uid}/Cart`));
 
     allCart.forEach((i) => {
       arr.push(i.data());
@@ -19,16 +19,16 @@ function UserCart() {
     return arr;
   }
 
-  // useEffect(() => {
-  //   const obj = getFiles();
-  //   setfiles(obj);
-  // }, []);
+  useEffect(async() => {
+    const obj = await getFiles();
+    setfiles(obj);
+  },[]);
 
   console.log(files);
 
   return (
     <div className="Cart">
-      <h1 className="heading">My Shopping Cart</h1>
+      <h1 className="heading"> Cart</h1>
       <div className="Cart-headings">
         <p>Product Image</p>
         <p>Description</p>
