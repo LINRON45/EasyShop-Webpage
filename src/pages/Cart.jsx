@@ -28,7 +28,6 @@ function UserCart() {
 
   return (
     <div className="Cart">
-      <h1 className="heading"> Cart</h1>
       <div className="Cart-headings">
         <p>Product Image</p>
         <p>Description</p>

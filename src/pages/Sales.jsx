@@ -5,7 +5,7 @@ import { getCookie } from "react-use-cookie";
 import SalesItems from "../components/Sales/SalesItems";
 
 function Sales() {
-  const userId = getCookie("username");
+  const userId = getCookie("uid");
 
   const userItems = [];
 
@@ -24,8 +24,6 @@ function Sales() {
 
   return (
     <div className="Sales">
-      <h1 className="heading">My Sales</h1>
-      <hr></hr>
       {test.map((items, index) => (
         <SalesItems
           key={index}

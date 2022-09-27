@@ -24,7 +24,7 @@ function Sell() {
     condition: "",
     country: "",
     currency: "USD",
-    // shippingFee: null,
+    shippingFee: "Free",
     // deliveryFee: null,
     // shippingList: [],
     // description: "",

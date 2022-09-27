@@ -6,8 +6,6 @@
   .Sales-Item {
     display: flex;
     background-color: lightblue;
-    margin: 20px 20px 20px 20px;
-    border: 2px solid gray;
   }
   
   .Sales-Item div {

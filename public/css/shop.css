@@ -1,36 +1,45 @@
 /* Shop */
-.Shop {
-  padding: 0 5vw;
-  
+.Shop{
+  padding: 2vw 6vw;
+
+  height: 100%;
+  min-height: 100vh;
+}
+
+.list-items{
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
 }
 
 /* Shop Items */
 
-.items {
-  width: 90vw;
-  background-color: rgb(255, 160, 105);
+.items{
+  background-color: aquamarine;
+  outline: .05vw solid rgba(132, 132, 132, 0.5);
+  width:18vw;
+  height: 30vw;
+  display: grid;
+  grid-template-rows: 15rem auto;
+  margin: 2vw 0;
+  border-radius: 1vw;
+
 }
 
-
-.items div button {
-  margin: 5px;
-  border-radius: 50px;
-  padding: 4px;
+.items-img{
+  width: inherit;
+  height: 100%;
+  border-top-left-radius: 1vw;
+  border-top-right-radius: 1vw;
+  background-color: rgb(240, 240, 240);
+  outline: .01vw solid rgba(150, 150, 150, 0.4);
+  
+}
+.items > div > a {
+  text-decoration: underline;
 }
 
-.items p {
-  float: right;
-  margin-left: 30px;
-  font-size: 16px;
-  font-weight: bold;
-  margin-top: 5px;
+.items > div > a:hover {
+  cursor: pointer;
+  color: blue;
 }
-
-.items-img {
-  border: 5px solid rgba(255, 255, 255, 0.76);
-  padding: 1px;
-  height: 20vw;
-  margin-top: 20px;
-  border-radius: 20px;
-}
-

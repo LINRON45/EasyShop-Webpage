@@ -26,24 +26,15 @@ function Item_box(props) {
         }
         alt={props.Name}
       />
+      <div>
+        <a>{props.Name}</a>
+        <p>$ 222{props.Price} {props.Currency}</p>
+        <p>new {props.Condition}</p>
+        <p>$ 222{props.Price} {props.Currency} Shipping</p>
 
-      <p>
-        <h3>{props.Name}</h3>
-        Price: $ {props.Price} {props.Currency}
-        Condition: {props.Condition}
-      </p>
-      <button className={props.id} onClick={toCart}>
-          Add to Cart
-        </button>
-      {/* <div>
-       
-        <button
-          className={props.id}
-          onClick={(event) => console.log(event.target.className)}
-        >
-          See more details
-        </button>
-      </div> */}
+        <p>Manufactured in (Country)</p>
+      </div>
+
     </div>
   );
 }
