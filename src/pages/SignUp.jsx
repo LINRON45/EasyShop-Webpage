@@ -60,24 +60,24 @@ function SignUp() {
 
   //Attempt to Create Account and Verify Email
   async function CreateAcc() {
-    const { fname, lname, username, email, password, DOB } = userInfo;
-    setalert(false);
-    setmessage("");
-    settype("");
+    // const { fname, lname, username, email, password, DOB } = userInfo;
+    // setalert(false);
+    // setmessage("");
+    // settype("");
 
-    if (
-      fname === "" ||
-      lname === "" ||
-      username === "" ||
-      email === "" ||
-      password === ""||
-      DOB === ""
-    ) {
-      setalert(true);
-      setmessage("Fill all required fields.");
-      settype("info");
-      return;
-    }
+    // if (
+    //   fname === "" ||
+    //   lname === "" ||
+    //   username === "" ||
+    //   email === "" ||
+    //   password === ""||
+    //   DOB === ""
+    // ) {
+    //   setalert(true);
+    //   setmessage("Fill all required fields.");
+    //   settype("info");
+    //   return;
+    // }
 
     if (passwordconfirm !== account.password) {
       setalert(true);
