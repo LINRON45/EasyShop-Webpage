@@ -1,44 +1,84 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-function ShippingPlaces(props) {
+function ShippingPlaces({ countries, setObj, obj, name }) {
   //countries,
 
-  const places = [];
+  const [places, setPlaces] = useState([]);
 
-  function addPlace() {
-    const container = document.getElementById("shippingPlace");
-    container.innerHTML += test2();
+  function remove(event) {
+    let data = [...places];
+    data.splice(event.target.id, 1);
+
+    setPlaces(data);
   }
 
-  function test2() {
-    return `<div>
-    <select id="country" name="country">
-    <button>close</button>
-        <option disabled selected>
-        Select Country Available for Shipping
-        </option>
-        ${props.countries.map((country, index) => {
-          return (
-            `<option key=${index} value=${country}>
-              ${country}
-            </option>`
-          );
-        })}
-      </select>
-      <button>close</button>
-      </div>`;
+  useEffect(() => {
+    setObj((prev) => {
+      return {
+        ...prev,
+        [name]: places,
+      };
+    });
+
+    return ()=>{
+      console.log('removed')
+      let itemObj = obj
+
+      delete itemObj.name
+      if(name==="shippingList"){
+        delete itemObj.shippingFee
+      }else{
+        delete itemObj.deliveryFee
+      }
+
+      setObj(itemObj)
+    }
+    
+  }, [places]);
+
+
+
+
+  function handleChange(event) {
+    if (!places.includes(event.target.value)) {
+      setPlaces((prev) => [...prev, event.target.value]);
+    } else {
+      alert("Already Selected.");
+    }
   }
 
   return (
-    <div>
-      <h1>Shipping location </h1>
-      <div id="shippingPlace">
-        <div>
-        <select id="country" name="country">
-          <option disabled selected>
-            Select Country Available for Shipping
-          </option>
-          {props.countries.map((country, index) => {
+    <div className="list-container">
+      <h3>
+        {name === "shippingList"
+          ? "Shipping Available In: "
+          : "Delivery Available In:"}
+      </h3>
+      <ul>
+        {places.map((place, index) => {
+          return (
+            <li key={index}>
+              {place}
+              <button id={index} className="remove-btn  .." onClick={remove}>
+                <img
+                  className="rm-btn-img"
+                  src="https://cdn-icons-png.flaticon.com/512/463/463612.png"
+                  alt="remove"
+                />
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+      <div>
+        <select
+          className="select-list"
+          name="country"
+          defaultValue="Select Country Available for Shipping"
+          onChange={handleChange}
+        >
+          <option disabled>Select Country Available for Shipping</option>
+          {countries.map((country, index) => {
             return (
               <option key={index} value={country}>
                 {country}
@@ -46,11 +86,7 @@ function ShippingPlaces(props) {
             );
           })}
         </select>
-        </div>
-        <button>close</button>
       </div>
-
-      <button onClick={addPlace}>Add a Location</button>
     </div>
   );
 }

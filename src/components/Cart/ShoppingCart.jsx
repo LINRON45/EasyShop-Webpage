@@ -6,18 +6,18 @@ import { db } from "../../services/firebase-config";
 function ShoppingCart(props) {
   const uid = getCookie("uid");
 
-  const fileRef = doc(db, `Users/${uid}/Cart`, `${props.id}`);
+  const fileRef = doc(db, `Users/${uid}/Cart`, `${props.Name}`);
 
   async function increaseQuantity() {
     await updateDoc(fileRef, {
-      quantity: props.quantity + 1,
+      quantity: props.Quantity + 1,
     });
   }
 
   async function decreaseQuantity() {
-    if (props.quantity !== 1) {
+    if (props.Quantity !== 1) {
       await updateDoc(fileRef, {
-        quantity: props.quantity - 1,
+        quantity: props.Quantity - 1,
       });
     }
   }
@@ -28,36 +28,48 @@ function ShoppingCart(props) {
 
   return (
     <div className="Cart-contents">
-      <div>
-        <img
-          src={
-            props.Image ||
-            "https://c.tenor.com/SUvStf4vWyQAAAAM/loading-and-you-failed.gif"
-          }
-          alt=""
-        ></img>
-      </div>
+      <img
+        src={
+          props.Image ||
+          "https://c.tenor.com/SUvStf4vWyQAAAAM/loading-and-you-failed.gif"
+        }
+        alt=""
+      ></img>
 
       <div className="product">
         <p>{props.Name}</p>
-        <button>See more details</button>
       </div>
 
       <div className="quantity">
-        <button onClick={decreaseQuantity}>-</button>
-        <p>{props.quantity}</p>
-        <button onClick={increaseQuantity}>+</button>
+        <button onClick={increaseQuantity}>
+          <img className="arrow" src="arrow.png" alt="" />
+        </button>
+        <p>{props.Quantity}</p>
+        <button onClick={decreaseQuantity}>
+          <img id="decrease-arrow" className="arrow" src="arrow.png" alt="" />
+        </button>
       </div>
 
       <div>
-        <p>$ {props.Price*props.quantity}</p>
+        <p>$ {(props.Price * props.Quantity).toFixed(2)}</p>
         <p>{props.Currency}</p>
       </div>
 
-      <button className="Cart-remove" onClick={removeItem}>
-        {" "}
-        Remove from Cart
-      </button>
+      <div>
+        <p>$ {(props.Price * props.Quantity).toFixed(2)}</p>
+        <p>{props.Currency}</p>
+      </div>
+
+      <div>
+        <p>$ {(props.Price * props.Quantity).toFixed(2)}</p>
+        <p>{props.Currency}</p>
+      </div>
+
+      <div>
+        <button className="Cart-remove" onClick={removeItem}>
+          Remove from Cart
+        </button>
+      </div>
     </div>
   );
 }

@@ -151,12 +151,7 @@ li:has(#profile):hover {
   color: black;
 }
 
-.Sales,
-.Cart {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-}
+
 
 /* sell form and contact button */
 #fab1,

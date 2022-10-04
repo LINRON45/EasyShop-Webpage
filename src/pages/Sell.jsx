@@ -6,6 +6,7 @@ import { Fab } from "@mui/material";
 import { getCookie } from "react-use-cookie";
 import axios from "axios";
 import ShippingPlaces from "../components/Sell/ShippingPlaces";
+import { KeyboardReturnRounded } from "@mui/icons-material";
 
 function Sell() {
   const uid = getCookie("uid");
@@ -20,14 +21,13 @@ function Sell() {
 
   const [sellItem, setsellItem] = useState({
     itemName: "",
-    image: "",
+    email: "",
+    phone: "",
     condition: "",
     country: "",
     currency: "USD",
-    shippingFee: "Free",
-    // deliveryFee: null,
-    // shippingList: [],
-    // description: "",
+    price: null,
+    description: "",
   });
   const storageRef = ref(storage, `${uid}/${sellItem.itemName}`);
 
@@ -67,7 +67,7 @@ function Sell() {
     });
   }, []);
 
-  function imageUpload(event) {
+  function imagePreview(event) {
     if (event.target.files[0]) {
       const file = event.target.files[0];
       setImage(file);
@@ -78,18 +78,30 @@ function Sell() {
   function saveItemValues(event) {
     const { name, value } = event.target;
 
+    if (name === "price" || name === "shippingFee" || name === "deliveryFee") {
+      const cost = parseFloat(value).toFixed(2);
+
+      setsellItem((prevValue) => {
+        return {
+          ...prevValue,
+          [name]: cost,
+        };
+      });
+
+      return;
+    }
+
     setsellItem((prevValue) => {
       return {
         ...prevValue,
         [name]: value,
       };
     });
-
-    console.log(sellItem);
   }
 
-  function uploadImg() {
+  function createSaleItem() {
     const uploadTask = uploadBytesResumable(storageRef, image);
+    const valuesList = Object.values(sellItem);
 
     uploadTask.on(
       "state_changed",
@@ -131,7 +143,7 @@ function Sell() {
     );
   }
 
-  function test(e) {
+  function checkOptions(e) {
     const value = e.target.checked;
 
     const name = e.target.id;
@@ -141,6 +153,69 @@ function Sell() {
     });
 
     console.log(value);
+  }
+
+  async function verifyPhoneNum(number) {
+    try {
+      axios.defaults.headers["apikey"] = "TV1hz15BBYjhRsQXBMPZtYhvWXi2Dv8w";
+      const res = await axios.get(
+        `https://api.apilayer.com/number_verification/validate?number=${number}/`
+      );
+
+      const data = await res.data;
+
+      if (data.valid === true && data.carrier) {
+        console.log("valid number");
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function verifyEmail(email) {
+    try {
+      const res = await axios.get(
+        `https://emailverification.whoisxmlapi.com/api/v2?apiKey=at_t8L3VT6v08ilz31bDZiNwXDm0Exa1&emailAddress=${email}`
+      );
+
+      const data = await res.data;
+      if (
+        data.formatCheck === "false" ||
+        data.freeCheck === "false" ||
+        data.dnsCheck === "false" ||
+        data.smtpCheck === "false"
+      ) {
+        console.log("Invalid email");
+        return false;
+      }
+      console.log("Valid email");
+
+      return true;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function checkRun() {
+    const emailValid = await verifyEmail(sellItem.email);
+
+    const phoneValid = await verifyPhoneNum(sellItem.phone);
+
+    if (!emailValid) {
+      alert("Invalid Email!");
+      return;
+    }
+
+    if (!phoneValid) {
+      alert("Invalid Phone Number!");
+      return;
+    }
+
+
+
+    createSaleItem();
   }
 
   return (
@@ -154,7 +229,7 @@ function Sell() {
             type="file"
             id="inp-img"
             accept="image/png, image/jpeg"
-            onChange={imageUpload}
+            onChange={imagePreview}
             hidden
           />
 
@@ -167,13 +242,31 @@ function Sell() {
           name="itemName"
           placeholder="Enter the name of the item..."
           value={sellItem.itemName}
+          required
         />
 
+        <input
+          type="email"
+          name="email"
+          placeholder="Enter business email"
+          onChange={saveItemValues}
+          value={sellItem.email}
+          required
+        />
+        <input
+          type="tel"
+          name="phone"
+          placeholder="Enter business number"
+          onChange={saveItemValues}
+          value={sellItem.phone}
+          required
+        />
         <select
           id="country"
           name="country"
           onChange={saveItemValues}
           defaultValue="Select Country of Manufacture"
+          required
         >
           <option disabled>Select Country of Manufacture</option>
           {countries.map((country, index) => {
@@ -190,6 +283,7 @@ function Sell() {
           name="condition"
           onChange={saveItemValues}
           defaultValue="Select Item Condition"
+          required
         >
           <option disabled>Select Item Condition</option>
           <option>New</option>
@@ -199,22 +293,27 @@ function Sell() {
           <option>Poor</option>
         </select>
 
-        <section id="transport-opt">
-          <div>
+        <ul id="transport-opt">
+          <li>
             <label htmlFor="shipping">Shipping Available</label>
-            <input type="checkbox" id="shipping" name="ship" onClick={test} />
-          </div>
+            <input
+              type="checkbox"
+              id="shipping"
+              name="ship"
+              onClick={checkOptions}
+            />
+          </li>
 
-          <div>
+          <li>
             <label htmlFor="delivering">Delivery Available</label>
             <input
               type="checkbox"
               id="delivering"
               name="delivery"
-              onClick={test}
+              onClick={checkOptions}
             />
-          </div>
-        </section>
+          </li>
+        </ul>
 
         <section id="pricing">
           <input
@@ -223,7 +322,6 @@ function Sell() {
             type="number"
             name="price"
             min="0.00"
-            max="100000.00"
             step="0.01"
             placeholder="Enter the selling price..."
           />
@@ -235,7 +333,6 @@ function Sell() {
               type="number"
               name="shippingFee"
               min="0.00"
-              max="100000.00"
               step="0.01"
               placeholder="Enter Shipping Fee..."
             />
@@ -247,13 +344,19 @@ function Sell() {
               type="number"
               name="deliveryFee"
               min="0.00"
-              max="100000.00"
               step="0.01"
               placeholder="Enter Delivery Fee..."
             />
           )}
 
-          <select id="currency" onChange={saveItemValues}>
+          <select
+            id="currency"
+            onChange={saveItemValues}
+            defaultValue="CCY"
+            required
+          >
+            <option disabled>CCY</option>
+
             {currencies.map((currency, index) => {
               return (
                 <option key={index} value={currency}>
@@ -264,12 +367,20 @@ function Sell() {
           </select>
         </section>
 
-        {showFees.shipping && <ShippingPlaces countries={countries} />}
+        {showFees.shipping && (
+          <ShippingPlaces
+            countries={countries}
+            obj={sellItem}
+            setObj={setsellItem}
+            name="shippingList"
+          />
+        )}
         {showFees.delivering && (
-          <input
-            type="tel"
-            name="phone"
-            placeholder="Enter your delivery number"
+          <ShippingPlaces
+            countries={countries}
+            obj={sellItem}
+            setObj={setsellItem}
+            name="deliveryList"
           />
         )}
 
@@ -279,6 +390,8 @@ function Sell() {
             rows="6"
             name="description"
             placeholder="Description..."
+            value={sellItem.description}
+            required
           />
         </div>
 
@@ -286,9 +399,7 @@ function Sell() {
           id="fab2"
           className="fab-but"
           variant="extended"
-          onClick={() => {
-            uploadImg();
-          }}
+          onClick={checkRun}
           disabled={buttonState}
         >
           {button}

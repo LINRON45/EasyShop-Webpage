@@ -19,21 +19,21 @@ function UserCart() {
     return arr;
   }
 
-  useEffect(async() => {
+  useEffect(async () => {
     const obj = await getFiles();
     setfiles(obj);
-  },[]);
+  }, [files]);
 
-  console.log(files);
 
   return (
     <div className="Cart">
       <div className="Cart-headings">
-        <p>Product Image</p>
-        <p>Description</p>
-        <p>Quantity</p>
-        <p>Price</p>
-        <p>Remove</p>
+        <h3>Product Image</h3>
+        <h3>Name</h3>
+        <h3>Quantity</h3>
+        <h3>Shipping Fee</h3>
+        <h3>Delivery Fee</h3>
+        <h3>Price</h3>
       </div>
       {files.map((items, index) => {
         return (
@@ -42,12 +42,22 @@ function UserCart() {
             id={items.id}
             Image={items.image}
             Name={items.itemName}
-            quantity={items.quantity}
+            Quantity={items.quantity}
             Price={items.price}
             Currency={items.currency}
           />
         );
       })}
+
+      <div id="checkout">
+        <p>$$$</p>
+        <p>$$$</p>
+        <p>$$$</p>
+        <div>
+          <p>$$$</p>
+          <button>Checkout</button>
+        </div>
+      </div>
     </div>
   );
 }

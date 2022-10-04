@@ -1,12 +1,22 @@
 /* Shop */
-.Shop{
+@font-face {
+  font-family: "webfont";
+  src: url("./webfontkit-20220928-022440/audiowide-regular-webfont.woff2")
+      format("woff2"),
+    url("../webfontkit-20220928-022440/audiowide-regular-webfont.woff")
+      format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.Shop {
   padding: 2vw 6vw;
 
   height: 100%;
   min-height: 100vh;
 }
 
-.list-items{
+.list-items {
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
@@ -14,26 +24,26 @@
 
 /* Shop Items */
 
-.items{
-  background-color: aquamarine;
-  outline: .05vw solid rgba(132, 132, 132, 0.5);
-  width:18vw;
-  height: 30vw;
+.items {
+  font-family: sans-serif;
+  background-color: #feddb0;
+  outline: 0.05vw solid rgba(132, 132, 132, 0.5);
+  width: 18vw;
+  height: auto;
   display: grid;
-  grid-template-rows: 15rem auto;
+  grid-template-rows: 15vw 12vw;
   margin: 2vw 0;
   border-radius: 1vw;
-
+  font-size: 1vw;
 }
 
-.items-img{
+.items-img {
   width: inherit;
   height: 100%;
   border-top-left-radius: 1vw;
   border-top-right-radius: 1vw;
   background-color: rgb(240, 240, 240);
-  outline: .01vw solid rgba(150, 150, 150, 0.4);
-  
+  outline: 0.01vw solid rgba(150, 150, 150, 0.4);
 }
 .items > div > a {
   text-decoration: underline;
@@ -41,5 +51,49 @@
 
 .items > div > a:hover {
   cursor: pointer;
-  color: blue;
+  color: rgb(0, 81, 255);
+}
+
+.items > div {
+  display: flex;
+  flex-direction: column;
+  margin: 1vw;
+}
+
+.items > div > p {
+  margin: 0.2vw 0;
+}
+
+.items > span {
+  font-size: .6vw;
+  color: rgb(63, 63, 63);
+  justify-self: center;
+  margin-bottom: 2vw;
+  margin-top: 1vw;
+  font-weight: lighter;
+}
+.condition{
+  text-align: center;
+  font-size: 1vw;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  color: rgb(132, 132, 132);
+}
+.cost {
+  display: flex;
+  font-size: 2.5vw;
+  font-weight: bolder;
+  font-family: "webfont";
+  padding-top: 1vw ;
+  color: rgb(255, 94, 45);
+
+}
+.fee{
+  font-family: "webfont";
+  font-weight: bold;
+  font-size: 1.3vw;
+
+}
+.cents {
+  font-size: 1.5vw;
 }

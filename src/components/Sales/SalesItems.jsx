@@ -13,8 +13,8 @@ function SalesItems(props) {
     description: props.Description,
   });
 
-  const SaleitemId = props.id;
-  const user = getCookie("username");
+  const SaleitemId = props.Name;
+  const uid = getCookie("uid");
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -27,21 +27,21 @@ function SalesItems(props) {
     });
   }
 
-  async function updatefile() {
-    console.log(newObj);
-    const fileRef = doc(db, `Users/${user}/Sales`, `${SaleitemId}`);
+  // async function updatefile() {
+  //   console.log(newObj);
+  //   const fileRef = doc(db, `Users/${uid}/Sales`, `${SaleitemId}`);
 
-    await updateDoc(fileRef, {
-      ...newObj,
-    });
-    setupdate(!update);
-  }
+  //   await updateDoc(fileRef, {
+  //     ...newObj,
+  //   });
+  //   setupdate(!update);
+  // }
 
   async function deletefile() {
     console.log(SaleitemId);
-    console.log(user);
+    console.log(uid);
 
-    await deleteDoc(doc(db, `Users/${user}/Sales`, `${SaleitemId}`));
+    await deleteDoc(doc(db, `Users/${uid}/Sales`, `${SaleitemId}`));
   }
 
   return (
@@ -115,7 +115,7 @@ function SalesItems(props) {
           </ul>
         </li>
         <div>
-          <button onClick={updatefile}>{update ? "Save" : "Update"}</button>
+          {/* <button onClick={updatefile}>{update ? "Save" : "Update"}</button> */}
           <button onClick={deletefile}>Remove</button>
         </div>
       </ul>
