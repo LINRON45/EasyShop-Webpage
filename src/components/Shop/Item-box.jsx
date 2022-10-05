@@ -31,7 +31,7 @@ function Item_box(props) {
         </Link>
         {itemData.price ? <p className="cost">
           ${Math.floor(itemData.price)}
-          <span className="cents">{toString(itemData.price).split(".")}</span>
+          <span className="cents">{(itemData.price).split(".")}</span>
           {itemData.currency}
         </p> : <p className="cost">Free</p>}
         {itemData.shippingFee ? (

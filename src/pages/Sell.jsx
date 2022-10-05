@@ -6,7 +6,7 @@ import { Fab } from "@mui/material";
 import { getCookie } from "react-use-cookie";
 import axios from "axios";
 import ShippingPlaces from "../components/Sell/ShippingPlaces";
-import { KeyboardReturnRounded } from "@mui/icons-material";
+import Zoom from "@mui/material/Zoom";
 
 function Sell() {
   const uid = getCookie("uid");
@@ -101,7 +101,6 @@ function Sell() {
 
   function createSaleItem() {
     const uploadTask = uploadBytesResumable(storageRef, image);
-    const valuesList = Object.values(sellItem);
 
     uploadTask.on(
       "state_changed",
@@ -199,9 +198,25 @@ function Sell() {
   }
 
   async function checkRun() {
+    const valuesList = Object.values(sellItem);
+
     const emailValid = await verifyEmail(sellItem.email);
 
     const phoneValid = await verifyPhoneNum(sellItem.phone);
+
+    if (
+      preview ===
+      "https://www.insticc.org/node/TechnicalProgram/56e7352809eb881d8c5546a9bbf8406e.png"
+    ) {
+      alert("Add An Image Of The Product!");
+      return;
+    }
+
+    if (valuesList.includes("")) {
+      alert("Fill Out All Fields!");
+
+      return;
+    }
 
     if (!emailValid) {
       alert("Invalid Email!");
@@ -213,199 +228,199 @@ function Sell() {
       return;
     }
 
-
-
     createSaleItem();
   }
 
   return (
-    <div className="Sell" id="sell">
-      <form className="sell-form" onSubmit={(e) => e.preventDefault()}>
-        <section id="img-sec">
-          <button onClick={() => document.getElementById("inp-img").click()}>
-            Upload Image
-          </button>
-          <input
-            type="file"
-            id="inp-img"
-            accept="image/png, image/jpeg"
-            onChange={imagePreview}
-            hidden
-          />
-
-          <img id="preview" src={preview} alt={sellItem.itemName} />
-        </section>
-
-        <input
-          onChange={saveItemValues}
-          type="text"
-          name="itemName"
-          placeholder="Enter the name of the item..."
-          value={sellItem.itemName}
-          required
-        />
-
-        <input
-          type="email"
-          name="email"
-          placeholder="Enter business email"
-          onChange={saveItemValues}
-          value={sellItem.email}
-          required
-        />
-        <input
-          type="tel"
-          name="phone"
-          placeholder="Enter business number"
-          onChange={saveItemValues}
-          value={sellItem.phone}
-          required
-        />
-        <select
-          id="country"
-          name="country"
-          onChange={saveItemValues}
-          defaultValue="Select Country of Manufacture"
-          required
-        >
-          <option disabled>Select Country of Manufacture</option>
-          {countries.map((country, index) => {
-            return (
-              <option key={index} value={country}>
-                {country}
-              </option>
-            );
-          })}
-        </select>
-
-        <select
-          id="select-condition"
-          name="condition"
-          onChange={saveItemValues}
-          defaultValue="Select Item Condition"
-          required
-        >
-          <option disabled>Select Item Condition</option>
-          <option>New</option>
-          <option>Very Good</option>
-          <option>Good </option>
-          <option>Acceptable</option>
-          <option>Poor</option>
-        </select>
-
-        <ul id="transport-opt">
-          <li>
-            <label htmlFor="shipping">Shipping Available</label>
+    <Zoom in={true}>
+      <div className="Sell" id="sell">
+        <form className="sell-form" onSubmit={(e) => e.preventDefault()}>
+          <section id="img-sec">
+            <button onClick={() => document.getElementById("inp-img").click()}>
+              Upload Image
+            </button>
             <input
-              type="checkbox"
-              id="shipping"
-              name="ship"
-              onClick={checkOptions}
+              type="file"
+              id="inp-img"
+              accept="image/png, image/jpeg"
+              onChange={imagePreview}
+              hidden
             />
-          </li>
 
-          <li>
-            <label htmlFor="delivering">Delivery Available</label>
-            <input
-              type="checkbox"
-              id="delivering"
-              name="delivery"
-              onClick={checkOptions}
-            />
-          </li>
-        </ul>
+            <img id="preview" src={preview} alt={sellItem.itemName} />
+          </section>
 
-        <section id="pricing">
           <input
-            id="sell-price"
             onChange={saveItemValues}
-            type="number"
-            name="price"
-            min="0.00"
-            step="0.01"
-            placeholder="Enter the selling price..."
+            type="text"
+            name="itemName"
+            placeholder="Enter the name of the item..."
+            value={sellItem.itemName}
+            required
           />
 
-          {showFees.shipping && (
-            <input
-              id="shipping-fee"
-              onChange={saveItemValues}
-              type="number"
-              name="shippingFee"
-              min="0.00"
-              step="0.01"
-              placeholder="Enter Shipping Fee..."
-            />
-          )}
-          {showFees.delivering && (
-            <input
-              id="delivery-fee"
-              onChange={saveItemValues}
-              type="number"
-              name="deliveryFee"
-              min="0.00"
-              step="0.01"
-              placeholder="Enter Delivery Fee..."
-            />
-          )}
-
+          <input
+            type="email"
+            name="email"
+            placeholder="Enter business email"
+            onChange={saveItemValues}
+            value={sellItem.email}
+            required
+          />
+          <input
+            type="tel"
+            name="phone"
+            placeholder="Enter business number"
+            onChange={saveItemValues}
+            value={sellItem.phone}
+            required
+          />
           <select
-            id="currency"
+            id="country"
+            name="country"
             onChange={saveItemValues}
-            defaultValue="CCY"
+            defaultValue="Select Country of Manufacture"
             required
           >
-            <option disabled>CCY</option>
-
-            {currencies.map((currency, index) => {
+            <option disabled>Select Country of Manufacture</option>
+            {countries.map((country, index) => {
               return (
-                <option key={index} value={currency}>
-                  {currency}
+                <option key={index} value={country}>
+                  {country}
                 </option>
               );
             })}
           </select>
-        </section>
 
-        {showFees.shipping && (
-          <ShippingPlaces
-            countries={countries}
-            obj={sellItem}
-            setObj={setsellItem}
-            name="shippingList"
-          />
-        )}
-        {showFees.delivering && (
-          <ShippingPlaces
-            countries={countries}
-            obj={sellItem}
-            setObj={setsellItem}
-            name="deliveryList"
-          />
-        )}
-
-        <div>
-          <textarea
+          <select
+            id="select-condition"
+            name="condition"
             onChange={saveItemValues}
-            rows="6"
-            name="description"
-            placeholder="Description..."
-            value={sellItem.description}
+            defaultValue="Select Item Condition"
             required
-          />
-        </div>
+          >
+            <option disabled>Select Item Condition</option>
+            <option>New</option>
+            <option>Very Good</option>
+            <option>Good </option>
+            <option>Acceptable</option>
+            <option>Poor</option>
+          </select>
 
-        <Fab
-          id="fab2"
-          className="fab-but"
-          variant="extended"
-          onClick={checkRun}
-          disabled={buttonState}
-        >
-          {button}
-        </Fab>
-      </form>
-    </div>
+          <ul id="transport-opt">
+            <li>
+              <label htmlFor="shipping">Shipping Available</label>
+              <input
+                type="checkbox"
+                id="shipping"
+                name="ship"
+                onClick={checkOptions}
+              />
+            </li>
+
+            <li>
+              <label htmlFor="delivering">Delivery Available</label>
+              <input
+                type="checkbox"
+                id="delivering"
+                name="delivery"
+                onClick={checkOptions}
+              />
+            </li>
+          </ul>
+
+          <section id="pricing">
+            <input
+              id="sell-price"
+              onChange={saveItemValues}
+              type="number"
+              name="price"
+              min="0.00"
+              step="0.01"
+              placeholder="Enter the selling price..."
+            />
+
+            {showFees.shipping && (
+              <input
+                id="shipping-fee"
+                onChange={saveItemValues}
+                type="number"
+                name="shippingFee"
+                min="0.00"
+                step="0.01"
+                placeholder="Enter Shipping Fee..."
+              />
+            )}
+            {showFees.delivering && (
+              <input
+                id="delivery-fee"
+                onChange={saveItemValues}
+                type="number"
+                name="deliveryFee"
+                min="0.00"
+                step="0.01"
+                placeholder="Enter Delivery Fee..."
+              />
+            )}
+
+            <select
+              id="currency"
+              onChange={saveItemValues}
+              defaultValue="CCY"
+              required
+            >
+              <option disabled>CCY</option>
+
+              {currencies.map((currency, index) => {
+                return (
+                  <option key={index} value={currency}>
+                    {currency}
+                  </option>
+                );
+              })}
+            </select>
+          </section>
+
+          {showFees.shipping && (
+            <ShippingPlaces
+              countries={countries}
+              obj={sellItem}
+              setObj={setsellItem}
+              name="shippingList"
+            />
+          )}
+          {showFees.delivering && (
+            <ShippingPlaces
+              countries={countries}
+              obj={sellItem}
+              setObj={setsellItem}
+              name="deliveryList"
+            />
+          )}
+
+          <div>
+            <textarea
+              onChange={saveItemValues}
+              rows="6"
+              name="description"
+              placeholder="Description..."
+              value={sellItem.description}
+              required
+            />
+          </div>
+
+          <Fab
+            id="fab2"
+            className="fab-but"
+            variant="extended"
+            onClick={checkRun}
+            disabled={buttonState}
+          >
+            {button}
+          </Fab>
+        </form>
+      </div>
+    </Zoom>
   );
 }
 

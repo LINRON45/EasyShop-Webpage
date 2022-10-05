@@ -3,11 +3,11 @@ import Fab from "@mui/material/Fab";
 import Zoom from "@mui/material/Zoom";
 
 function Contact() {
-  const a = true;
 
   return (
+    <Zoom in={true}>
+
     <div className="Contact">
-      <Zoom in={a}>
         <form action="https://formsubmit.co/linronj@gmail.com" method="POST">
           <h1>How can we help?</h1>
           <input type="text" name="name" placeholder="Your Name" required />
@@ -29,8 +29,9 @@ function Contact() {
             submit
           </Fab>
         </form>
-      </Zoom>
     </div>
+    </Zoom>
+
   );
 }
 

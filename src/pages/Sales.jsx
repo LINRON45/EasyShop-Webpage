@@ -3,6 +3,8 @@ import { getDocs, collection } from "firebase/firestore";
 import { db } from "../services/firebase-config";
 import { getCookie } from "react-use-cookie";
 import SalesItems from "../components/Sales/SalesItems";
+import Zoom from "@mui/material/Zoom";
+
 
 function Sales() {
   const userId = getCookie("uid");
@@ -23,19 +25,17 @@ function Sales() {
   useEffect( () =>  getSales());
 
   return (
+    <Zoom in={true}>
+
     <div className="Sales">
       {test.map((items, index) => (
         <SalesItems
           key={index}
-          id={items.id}
-          Name={items.itemName}
-          Image={items.image}
-          Price={items.price}
-          ShippingFee={items.shippingFee}
-          Description={items.description}
+          obj={items}
         />
       ))}
     </div>
+    </Zoom>
   );
 }
 

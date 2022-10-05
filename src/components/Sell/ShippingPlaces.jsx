@@ -21,10 +21,10 @@ function ShippingPlaces({ countries, setObj, obj, name }) {
     });
 
     return ()=>{
-      console.log('removed')
       let itemObj = obj
 
-      delete itemObj.name
+      delete itemObj[name]
+
       if(name==="shippingList"){
         delete itemObj.shippingFee
       }else{

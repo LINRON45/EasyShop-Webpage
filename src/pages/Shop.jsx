@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import ItemBox from "../components/Shop/Item-box";
 import { getDocs, collection } from "firebase/firestore";
 import { db } from "../services/firebase-config";
+import Zoom from "@mui/material/Zoom";
+
 
 function Shop() {
   const [itemsArr, setItemsArr] = useState([]);
@@ -23,6 +25,8 @@ function Shop() {
   }
 
   return (
+    <Zoom in={true}>
+    
     <div className="Shop">
       <div className="list-items">
         {itemsArr instanceof Array && itemsArr.length
@@ -30,6 +34,7 @@ function Shop() {
           : "Loading..."}
       </div>
     </div>
+    </Zoom>
   );
 }
 

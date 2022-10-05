@@ -3,6 +3,8 @@ import { getCookie } from "react-use-cookie";
 import ShoppingCart from "../components/Cart/ShoppingCart";
 import { getDocs, collection } from "firebase/firestore";
 import { db } from "../services/firebase-config";
+import Zoom from "@mui/material/Zoom";
+
 
 function UserCart() {
   const [files, setfiles] = useState([]);
@@ -26,6 +28,8 @@ function UserCart() {
 
 
   return (
+    <Zoom in={true}>
+
     <div className="Cart">
       <div className="Cart-headings">
         <h3>Product Image</h3>
@@ -59,6 +63,7 @@ function UserCart() {
         </div>
       </div>
     </div>
+    </Zoom>
   );
 }
 

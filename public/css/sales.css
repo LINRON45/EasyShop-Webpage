@@ -10,22 +10,16 @@
     background-color: lightblue;
   }
   
-  .Sales-Item div {
+  .Sales-Item>div {
     justify-content: right;
     display: flex;
     flex-direction: column;
     margin-left: 850px;
   }
   
-  .Sales-Item button {
-    margin: 10px;
-    font-size: 20px;
-    padding: 5px;
-    border-radius: 10px;
-    font-weight: bold;
-  }
+ 
   
-  .Sales-Item img {
+  .Sales-Item>img {
     margin: 10px;
     width: 350px;
     height: 350px;
