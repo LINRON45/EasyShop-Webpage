@@ -1,41 +1,94 @@
 /* Sales */
 .Sales {
-    color: black;
-    height: 100%;
-    min-height: 100vh;
-  }
-  
-  .Sales-Item {
-    display: flex;
-    background-color: lightblue;
-  }
-  
-  .Sales-Item>div {
-    justify-content: right;
-    display: flex;
-    flex-direction: column;
-    margin-left: 850px;
-  }
-  
- 
-  
-  .Sales-Item>img {
-    margin: 10px;
-    width: 350px;
-    height: 350px;
-    border: 4px solid red;
-  }
-  
-  .Sales-ul {
-    margin-left: 50px;
-    margin-top: 30px;
-    list-style: none;
-  }
-  
-  .Sales-li {
-    margin: 10px;
-  }
-  
-  .Sales-li ul {
-    padding-left: 60px;
-  }
+  color: black;
+  height: 100%;
+  min-height: 100vh;
+}
+
+.Sales-Item {
+  display: flex;
+  background-color: rgb(255, 243, 232);
+  padding: 2vw 6vw;
+  border-bottom: 0.1vw solid rgb(187, 187, 187);
+}
+
+.Sales-Item > div {
+  justify-content: right;
+  display: flex;
+  flex-direction: column;
+}
+
+.Sales-Item > img {
+  width: 12vw;
+  height: 12vw;
+  border: 0.01vw solid rgb(67, 67, 67);
+  object-fit: fill;
+  margin-right: 5vw;
+}
+
+.Sales-ul {
+  list-style: none;
+}
+
+.Sales-li {
+  margin-bottom: 1vw;
+  font-family: sans-serif;
+}
+
+.Sales-li > span {
+  font-weight: bold;
+  font-size: 1vw;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  color: rgb(255, 77, 0);
+  margin-right: 0.2vw;
+}
+
+.Sales-li > button {
+  margin-top: 0.3vw;
+
+  border: none;
+  border-radius: 100%;
+  padding: 0.2vw;
+}
+
+.Sales-li > button:hover {
+  transform: scale(1.1);
+}
+
+.Sales-li > button:active {
+  transform: scale(0.9);
+}
+
+.Sales-li > button > img {
+  height: 1.3vw;
+  width: 1.3vw;
+}
+
+.Sales-rm {
+  margin: 0 auto;
+  border-radius: 100%;
+  border: 0.05vw solid rgb(68, 68, 68);
+  padding: 0.3vw;
+  width: 4vw;
+  height: 4vw;
+  background-color: rgba(125, 255, 55, 0.738);
+}
+
+.Sales-rm:hover {
+  background-color: rgba(255, 55, 55, 0.738);
+}
+
+.Sales-rm:active {
+  border: 0.1vw solid gray;
+}
+
+.Sales-rm > img {
+  width: 100%;
+  height: 100%;
+}
+
+.Rm-div {
+  margin-top: 2vw;
+  width: 100%;
+  display: flex;
+}

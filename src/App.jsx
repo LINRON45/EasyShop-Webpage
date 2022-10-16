@@ -17,6 +17,7 @@ import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import Profile from "./components/Profile";
 import UserCart from "./pages/Cart";
+import ItemPage from "./components/ItemPage";
 import { getCookie, setCookie } from "react-use-cookie";
 
 function App() {
@@ -106,6 +107,8 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/cart" element={<UserCart />} />
+        <Route path="/item" element={<ItemPage />} />
+
       </Routes>
       <div id="footer"></div>
     </div>

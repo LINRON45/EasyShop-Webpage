@@ -1,0 +1,62 @@
+#itemContainer {
+  min-height: 100vh;
+  padding: 0 6vw;
+  overflow-x: hidden;
+  word-wrap: break-word;
+  text-overflow: ellipsis;
+
+}
+
+#itemContainer > div {
+  display: grid;
+  grid-template-columns: 50vw auto;
+  grid-template-rows: 70vh auto auto auto;
+  word-wrap: normal;
+}
+#info {
+  display: flex;
+  flex-direction: column;
+}
+
+#itemInfo {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 2vw;
+  justify-content: space-evenly;
+  text-align: center;
+}
+
+#info > button {
+  padding: 1.5vw 0;
+  margin: 0.5vw auto;
+  width: 15vw;
+  border-radius: 2vw;
+}
+
+#item-img {
+  background-color: rgb(246, 246, 246);
+  padding: 1vw;
+}
+
+#item-img > img {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
+
+#itemContainer > div > section:first-of-type {
+  grid-column: span 2;
+}
+
+#itemContainer > div > section:nth-of-type(2) {
+  background-color: gray;
+  grid-column-start: 1;
+  grid-column: span 2;
+}
+
+#itemContainer > div > section:last-child {
+  background-color: gray;
+  grid-column-start: 1;
+  grid-column: span 2;
+}

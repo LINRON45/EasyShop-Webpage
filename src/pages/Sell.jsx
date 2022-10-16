@@ -26,9 +26,18 @@ function Sell() {
     condition: "",
     country: "",
     currency: "USD",
-    price: null,
     description: "",
   });
+
+  const [prevEmail, setPrevEmail] = useState({
+    value: "",
+    valid: null,
+  });
+  const [prevNum, setPrevNum] = useState({
+    value: "",
+    valid: null,
+  });
+
   const storageRef = ref(storage, `${uid}/${sellItem.itemName}`);
 
   let countryDict = {};
@@ -125,15 +134,21 @@ function Sell() {
       async () => {
         const imageURL = await getDownloadURL(uploadTask.snapshot.ref);
         console.log(imageURL);
+        const currentDate = Date().toString()
+
+        console.log(currentDate)
 
         setsellItem((prevVal) => {
           return { ...prevVal, image: imageURL };
         });
 
-        setState("");
+        
+
+        setState(true);
+        console.log(sellItem)
         setDoc(doc(db, `Users/${uid}/Sales/${sellItem.itemName}`), {
           ...sellItem,
-          date: Date().toString(),
+          date: currentDate,
           image: imageURL,
         });
 
@@ -165,8 +180,18 @@ function Sell() {
 
       if (data.valid === true && data.carrier) {
         console.log("valid number");
+
+        setPrevNum({
+          value: number,
+          valid: true,
+        });
         return true;
       }
+
+      setPrevNum({
+        value: number,
+        valid: false,
+      });
       return false;
     } catch (error) {
       console.log(error);
@@ -187,10 +212,18 @@ function Sell() {
         data.smtpCheck === "false"
       ) {
         console.log("Invalid email");
+        setPrevEmail({
+          value: email,
+          valid: false,
+        });
+
         return false;
       }
       console.log("Valid email");
-
+      setPrevEmail({
+        value: email,
+        valid: true,
+      });
       return true;
     } catch (error) {
       console.log(error);
@@ -199,10 +232,20 @@ function Sell() {
 
   async function checkRun() {
     const valuesList = Object.values(sellItem);
+    let emailValid = false;
+    let phoneValid = false;
 
-    const emailValid = await verifyEmail(sellItem.email);
+    if (prevEmail.value !== sellItem.email) {
+      emailValid = await verifyEmail(sellItem.email);
+    } else {
+      emailValid = prevEmail.valid;
+    }
 
-    const phoneValid = await verifyPhoneNum(sellItem.phone);
+    if (prevNum.value !== sellItem.phone) {
+      phoneValid = await verifyPhoneNum(sellItem.phone);
+    } else {
+      phoneValid = prevNum.valid;
+    }
 
     if (
       preview ===
@@ -256,7 +299,6 @@ function Sell() {
             name="itemName"
             placeholder="Enter the name of the item..."
             value={sellItem.itemName}
-            required
           />
 
           <input
@@ -265,7 +307,6 @@ function Sell() {
             placeholder="Enter business email"
             onChange={saveItemValues}
             value={sellItem.email}
-            required
           />
           <input
             type="tel"
@@ -273,14 +314,12 @@ function Sell() {
             placeholder="Enter business number"
             onChange={saveItemValues}
             value={sellItem.phone}
-            required
           />
           <select
             id="country"
             name="country"
             onChange={saveItemValues}
             defaultValue="Select Country of Manufacture"
-            required
           >
             <option disabled>Select Country of Manufacture</option>
             {countries.map((country, index) => {
@@ -297,7 +336,6 @@ function Sell() {
             name="condition"
             onChange={saveItemValues}
             defaultValue="Select Item Condition"
-            required
           >
             <option disabled>Select Item Condition</option>
             <option>New</option>
@@ -363,12 +401,7 @@ function Sell() {
               />
             )}
 
-            <select
-              id="currency"
-              onChange={saveItemValues}
-              defaultValue="CCY"
-              required
-            >
+            <select id="currency" name="currency" onChange={saveItemValues} defaultValue="CCY">
               <option disabled>CCY</option>
 
               {currencies.map((currency, index) => {
@@ -405,7 +438,6 @@ function Sell() {
               name="description"
               placeholder="Description..."
               value={sellItem.description}
-              required
             />
           </div>
 
