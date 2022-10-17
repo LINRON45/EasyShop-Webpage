@@ -6,7 +6,7 @@ import Zoom from "@mui/material/Zoom";
 import { isEmpty } from "@firebase/util";
 
 function Shop() {
-  const [itemsArr, setItemsArr] = useState('');
+  const [itemsArr, setItemsArr] = useState([]);
   const [pageText, setText] = useState("Loading...");
 
   useEffect(async () => {
@@ -20,11 +20,13 @@ function Shop() {
       });
     });
 
-    setTimeout(() => {
-      if (isEmpty(itemsArr)) {
-        setText("No Products On Sale!");
-      }
-    }, 3000);
+    // setTimeout(() => {
+    //   if (isEmpty(itemsArr)) {
+    //     setText("No Products On Sale!");
+    //   }
+    // }, 3000);
+
+    // console.log()
   }, []);
 
   function createItembox(item, index) {

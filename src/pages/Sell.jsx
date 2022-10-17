@@ -7,6 +7,7 @@ import { getCookie } from "react-use-cookie";
 import axios from "axios";
 import ShippingPlaces from "../components/Sell/ShippingPlaces";
 import Zoom from "@mui/material/Zoom";
+import swal from "sweetalert";
 
 function Sell() {
   const uid = getCookie("uid");
@@ -25,7 +26,6 @@ function Sell() {
     phone: "",
     condition: "",
     country: "",
-    currency: "USD",
     description: "",
   });
 
@@ -75,6 +75,34 @@ function Sell() {
       }
     });
   }, []);
+
+  const resetForm = () => {
+    setsellItem({
+      itemName: "",
+      email: "",
+      phone: "",
+      condition: "",
+      country: "",
+      description: "",
+    });
+
+    setShowFees({
+      shipping: false,
+      delivering: false,
+    });
+
+    setImage("");
+
+    setPrevEmail({
+      value: "",
+      valid: null,
+    });
+
+    setPrevNum({
+      value: "",
+      valid: null,
+    });
+  };
 
   function imagePreview(event) {
     if (event.target.files[0]) {
@@ -134,25 +162,49 @@ function Sell() {
       async () => {
         const imageURL = await getDownloadURL(uploadTask.snapshot.ref);
         console.log(imageURL);
-        const currentDate = Date().toString()
+        const currentDate = Date().toString();
 
-        console.log(currentDate)
+        console.log(currentDate);
 
         setsellItem((prevVal) => {
           return { ...prevVal, image: imageURL };
         });
 
-        
-
         setState(true);
-        console.log(sellItem)
-        setDoc(doc(db, `Users/${uid}/Sales/${sellItem.itemName}`), {
-          ...sellItem,
-          date: currentDate,
-          image: imageURL,
-        });
+        console.log(sellItem);
 
-        setButton("Submit");
+        try {
+          await setDoc(doc(db, `Users/${uid}/Sales/${sellItem.itemName}`), {
+            ...sellItem,
+            date: currentDate,
+            image: imageURL,
+          });
+
+          const modal = await swal({
+            title: "Success!",
+            text: "Item Successfully Created!",
+            icon: "success",
+            button: "Ok",
+            closeOnClickOutside: false,
+            closeOnEsc: false,
+          });
+
+          if (modal) {
+            resetForm();
+          }
+
+          setButton("Submit");
+          setState(false);
+        } catch (error) {
+          swal({
+            title: "Error!",
+            text: "An Error Occurred!",
+            icon: "error",
+            button: "Ok",
+            closeOnClickOutside: false,
+            closeOnEsc: false,
+          });
+        }
       }
     );
   }
@@ -252,6 +304,12 @@ function Sell() {
       "https://www.insticc.org/node/TechnicalProgram/56e7352809eb881d8c5546a9bbf8406e.png"
     ) {
       alert("Add An Image Of The Product!");
+      return;
+    }
+
+    if (!sellItem.currency && sellItem.price) {
+      alert("Fill Out All Fields!");
+
       return;
     }
 
@@ -401,7 +459,12 @@ function Sell() {
               />
             )}
 
-            <select id="currency" name="currency" onChange={saveItemValues} defaultValue="CCY">
+            <select
+              id="currency"
+              name="currency"
+              onChange={saveItemValues}
+              defaultValue="CCY"
+            >
               <option disabled>CCY</option>
 
               {currencies.map((currency, index) => {

@@ -8,6 +8,7 @@
 }
 
 .Contact form {
+  margin-top: -0.5vw;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -16,20 +17,22 @@
   background-color: white;
 }
 
-.Contact textarea {
+.Contact > form > textarea {
   margin: 2vh 0;
   width: 50vw;
   padding: 0.8vw;
   font-weight: bold;
   background-color: white;
+  font-family: sans-serif;
 }
 
-.Contact input {
+.Contact > form > input {
   margin: 2vh 0;
   width: 50vw;
   padding: 0.8vw;
   font-weight: bold;
   background-color: white;
+  font-family: sans-serif;
 }
 
 .fab-but,
@@ -45,4 +48,9 @@
 
 .Contact form {
   text-align: center;
+}
+
+iframe {
+  margin-top: -0.5vw;
+  height: 60vh;
 }

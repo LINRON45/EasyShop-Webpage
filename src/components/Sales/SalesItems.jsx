@@ -36,7 +36,7 @@ function SalesItems({ obj }) {
     }
 
     try {
-      const imgRef = ref(storage, `${uid}/${obj.itemName}.jpg`);
+      const imgRef = ref(storage, `${uid}/${obj.itemName}`);
 
       await deleteObject(imgRef);
       console.log("Successfully Deleted image");
