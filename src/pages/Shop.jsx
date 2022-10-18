@@ -20,14 +20,19 @@ function Shop() {
       });
     });
 
-    // setTimeout(() => {
-    //   if (isEmpty(itemsArr)) {
-    //     setText("No Products On Sale!");
-    //   }
-    // }, 3000);
+ 
 
-    // console.log()
   }, []);
+
+  const checkAfterMount =()=>{
+    setTimeout(() => {
+      if (isEmpty(itemsArr)) {
+        setText("No Products On Sale!");
+      }
+    }, 3000);
+  }
+
+  checkAfterMount()
 
   function createItembox(item, index) {
     return <ItemBox key={index} itemData={item} />;
