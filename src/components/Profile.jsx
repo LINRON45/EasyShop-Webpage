@@ -22,8 +22,11 @@ function Profile(props) {
     <div id="profile">
       <p onClick={() => setShow((prev) => !prev)}>
         {props.username}
-        <img id="pfp" src="https://cdn-icons-png.flaticon.com/512/1144/1144709.png" alt="pfp"/>
-        
+        <img
+          id="pfp"
+          src="https://cdn-icons-png.flaticon.com/512/1144/1144709.png"
+          alt="pfp"
+        />
       </p>
       <section
         className="dropdown"

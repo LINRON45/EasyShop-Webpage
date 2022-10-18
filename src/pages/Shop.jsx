@@ -19,20 +19,17 @@ function Shop() {
         setItemsArr((prev) => [...prev, item.data()]);
       });
     });
-
- 
-
   }, []);
 
-  const checkAfterMount =()=>{
+  const checkAfterMount = () => {
     setTimeout(() => {
       if (isEmpty(itemsArr)) {
         setText("No Products On Sale!");
       }
-    }, 3000);
-  }
+    }, 4000);
+  };
 
-  checkAfterMount()
+  checkAfterMount();
 
   function createItembox(item, index) {
     return <ItemBox key={index} itemData={item} />;
