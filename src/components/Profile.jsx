@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useNavigate } from "react-router-dom";
 import { setCookie } from "react-use-cookie";
 
@@ -22,7 +21,9 @@ function Profile(props) {
   return (
     <div id="profile">
       <p onClick={() => setShow((prev) => !prev)}>
-        {props.username} <AccountCircleIcon sx={{ fontSize: 30 }} />
+        {props.username}
+        <img id="pfp" src="https://cdn-icons-png.flaticon.com/512/1144/1144709.png" alt="pfp"/>
+        
       </p>
       <section
         className="dropdown"

@@ -66,18 +66,29 @@ function Item_box({ itemData }) {
 
         {!itemData.shippingFee && <p className="fee">No Shipping Available</p>}
 
-        {itemData.deliveryFee && itemData.deliveryList &&
-          <>{itemData.deliveryFee > 0 ? <p className="fee">
-            ${Math.floor(itemData.deliveryFee)}
-            <span className="fee-Cents">{deliveryFeeCents.split("0.")}</span>
-            Delivery
-          </p>:
-          <p className="fee">Free Delivery</p>}</>
-        }
+        {itemData.deliveryFee && itemData.deliveryList && (
+          <>
+            {itemData.deliveryFee > 0 ? (
+              <p className="fee">
+                ${Math.floor(itemData.deliveryFee)}
+                <span className="fee-Cents">
+                  {deliveryFeeCents.split("0.")}
+                </span>
+                Delivery
+              </p>
+            ) : (
+              <p className="fee">Free Delivery</p>
+            )}
+          </>
+        )}
         {!itemData.deliveryFee && <p className="fee">No Delivery Available</p>}
       </div>
-      <p className="ccy">{itemData.currency}</p>
-      <hr></hr>
+      {itemData.currency && (
+        <>
+          <p className="ccy">{itemData.currency}</p>
+          <hr></hr>
+        </>
+      )}
 
       <p className="condition">{itemData.condition}</p>
 

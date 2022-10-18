@@ -7,9 +7,9 @@
 
 .Sales-Item {
   display: flex;
-  background-color: rgb(255, 243, 232);
-  padding: 2vw 6vw;
-  border-bottom: 0.1vw solid rgb(187, 187, 187);
+  background-color: rgb(245, 242, 238);
+  padding: 2vw 6vw 0vw 6vw;
+  border-bottom: .2vw solid rgb(255, 0, 0);
 }
 
 .Sales-Item > div {
@@ -39,7 +39,7 @@
   font-weight: bold;
   font-size: 1vw;
   font-family: Georgia, "Times New Roman", Times, serif;
-  color: rgb(255, 77, 0);
+  color: rgb(199, 65, 8);
   margin-right: 0.2vw;
 }
 
@@ -71,6 +71,7 @@
   width: 4vw;
   height: 4vw;
   background-color: rgba(125, 255, 55, 0.738);
+margin: 0 auto;
 }
 
 .Sales-rm:hover {
@@ -88,6 +89,8 @@
 
 .Rm-div {
   margin-top: 2vw;
-  width: 100%;
+  width: 100vw;
   display: flex;
+  margin-left: -23vw;
+  padding: 2vw 0;
 }

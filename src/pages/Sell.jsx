@@ -93,14 +93,14 @@ function Sell() {
 
     setImage("");
 
-    setPrevEmail({
-      value: "",
-      valid: null,
-    });
+    setPreview(
+      "https://www.insticc.org/node/TechnicalProgram/56e7352809eb881d8c5546a9bbf8406e.png"
+    );
 
-    setPrevNum({
-      value: "",
-      valid: null,
+    const selects = document.querySelectorAll("select");
+
+    selects.forEach((select) => {
+      select.selectedIndex = 0;
     });
   };
 
