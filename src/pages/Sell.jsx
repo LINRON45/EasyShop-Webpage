@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
 import { db, storage } from "../services/firebase-config";
@@ -47,33 +47,34 @@ function Sell() {
     "https://www.insticc.org/node/TechnicalProgram/56e7352809eb881d8c5546a9bbf8406e.png"
   );
 
-  useEffect(async () => {
-    const countryRes = await axios.get("https://restcountries.com/v2/all");
+  useLayoutEffect(() => {
+    const getCountry = axios
+      .get("https://restcountries.com/v2/all")
+      .then((countryRes) => {
+        const data = countryRes.data;
+        data.forEach((country) => {
+          setCountries((prev) => [...prev, country.name]);
+        });
+      });
 
-    const data = countryRes.data;
+    const getCurrency = axios
+      .get("https://restcountries.com/v3.1/currency/dollar")
+      .then((currencyRes) => {
+        const currencyData = currencyRes.data;
 
-    data.forEach((country) => {
-      setCountries((prev) => [...prev, country.name]);
-    });
+        currencyData.forEach((currency) => {
+          const newData = currency.currencies;
 
-    const currencyRes = await axios.get(
-      "https://restcountries.com/v3.1/currency/dollar"
-    );
+          for (const [key, value] of Object.entries(newData)) {
+            if (countryDict[key]) {
+              continue;
+            }
 
-    const currencyData = currencyRes.data;
-
-    currencyData.forEach((currency) => {
-      const newData = currency.currencies;
-
-      for (const [key, value] of Object.entries(newData)) {
-        if (countryDict[key]) {
-          continue;
-        }
-
-        countryDict[key] = value.name;
-        setCurrencies((prev) => [...prev, key]);
-      }
-    });
+            countryDict[key] = value.name;
+            setCurrencies((prev) => [...prev, key]);
+          }
+        });
+      });
   }, []);
 
   const resetForm = () => {
@@ -97,6 +98,7 @@ function Sell() {
       "https://www.insticc.org/node/TechnicalProgram/56e7352809eb881d8c5546a9bbf8406e.png"
     );
 
+    //useRef is more efficient here
     const selects = document.querySelectorAll("select");
 
     selects.forEach((select) => {
@@ -145,7 +147,6 @@ function Sell() {
         var prog = Math.round(
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
         );
-        setState(true);
         setButton(`Uploading...${prog}%`);
 
         switch (snapshot.state) {
@@ -170,7 +171,6 @@ function Sell() {
           return { ...prevVal, image: imageURL };
         });
 
-        setState(true);
         console.log(sellItem);
 
         try {
@@ -284,6 +284,34 @@ function Sell() {
 
   async function checkRun() {
     const valuesList = Object.values(sellItem);
+
+    if (
+      preview ===
+      "https://www.insticc.org/node/TechnicalProgram/56e7352809eb881d8c5546a9bbf8406e.png"
+    ) {
+      alert("Add An Image Of The Product!");
+      setState(false);
+      setButton("Submit");
+      return;
+    }
+
+    if (!sellItem.currency && sellItem.price) {
+      alert("Fill Out All Fields!");
+      setState(false);
+      setButton("Submit");
+      return;
+    }
+
+    if (valuesList.includes("")) {
+      alert("Fill Out All Fields!");
+      setState(false);
+      setButton("Submit");
+      return;
+    }
+
+    setState(true);
+    setButton("Verifying...");
+
     let emailValid = false;
     let phoneValid = false;
 
@@ -299,33 +327,17 @@ function Sell() {
       phoneValid = prevNum.valid;
     }
 
-    if (
-      preview ===
-      "https://www.insticc.org/node/TechnicalProgram/56e7352809eb881d8c5546a9bbf8406e.png"
-    ) {
-      alert("Add An Image Of The Product!");
-      return;
-    }
-
-    if (!sellItem.currency && sellItem.price) {
-      alert("Fill Out All Fields!");
-
-      return;
-    }
-
-    if (valuesList.includes("")) {
-      alert("Fill Out All Fields!");
-
-      return;
-    }
-
     if (!emailValid) {
       alert("Invalid Email!");
+      setState(false);
+      setButton("Submit");
       return;
     }
 
     if (!phoneValid) {
       alert("Invalid Phone Number!");
+      setState(false);
+      setButton("Submit");
       return;
     }
 
@@ -337,6 +349,7 @@ function Sell() {
       <div className="Sell" id="sell">
         <form className="sell-form" onSubmit={(e) => e.preventDefault()}>
           <section id="img-sec">
+          {/* can use useRef here */}
             <button onClick={() => document.getElementById("inp-img").click()}>
               Upload Image
             </button>

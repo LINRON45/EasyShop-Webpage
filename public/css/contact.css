@@ -35,6 +35,7 @@
   font-weight: bold;
   background-color: white;
   font-family: sans-serif;
+  border: .08vw solid rgb(58, 58, 58);
 }
 
 .fab-but,

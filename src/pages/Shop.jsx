@@ -14,6 +14,12 @@ function Shop() {
 
     users.forEach(async (user) => {
       const items = await getDocs(collection(db, `Users/${user.id}/Sales`));
+      console.log(items)
+
+      if(items.empty){
+        setText("No Products On Sale!");
+
+      }
 
       items.forEach((item) => {
         setItemsArr((prev) => [...prev, item.data()]);
@@ -21,15 +27,8 @@ function Shop() {
     });
   }, []);
 
-  const checkAfterMount = () => {
-    setTimeout(() => {
-      if (isEmpty(itemsArr)) {
-        setText("No Products On Sale!");
-      }
-    }, 4000);
-  };
+ 
 
-  checkAfterMount();
 
   function createItembox(item, index) {
     return <ItemBox key={index} itemData={item} />;

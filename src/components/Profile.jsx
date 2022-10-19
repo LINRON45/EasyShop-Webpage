@@ -20,12 +20,13 @@ function Profile(props) {
 
   return (
     <div id="profile">
-      <p onClick={() => setShow((prev) => !prev)}>
-        {props.username}
+      <p>
+        <span>{props.username}</span>
         <img
           id="pfp"
           src="https://cdn-icons-png.flaticon.com/512/1144/1144709.png"
           alt="pfp"
+          onClick={() => setShow((prev) => !prev)}
         />
       </p>
       <section
