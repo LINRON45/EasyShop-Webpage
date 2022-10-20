@@ -9,26 +9,25 @@ function Shop() {
   const [itemsArr, setItemsArr] = useState([]);
   const [pageText, setText] = useState("Loading...");
 
-  useEffect(async () => {
-    const users = await getDocs(collection(db, "Users"));
+  useEffect(() => {
+    async function getData() {
+      const users = await getDocs(collection(db, "Users"));
 
-    users.forEach(async (user) => {
-      const items = await getDocs(collection(db, `Users/${user.id}/Sales`));
-      console.log(items)
 
-      if(items.empty){
-        setText("No Products On Sale!");
+      users.forEach(async (user) => {
+        const items = await getDocs(collection(db, `Users/${user.id}/Sales`));
+        if (items.empty) {
+          setText("No Products On Sale!");
+        }
 
-      }
-
-      items.forEach((item) => {
-        setItemsArr((prev) => [...prev, item.data()]);
+        items.forEach((item) => {
+          setItemsArr((prev) => [...prev, item.data()]);
+        });
       });
-    });
+    }
+
+    getData();
   }, []);
-
- 
-
 
   function createItembox(item, index) {
     return <ItemBox key={index} itemData={item} />;

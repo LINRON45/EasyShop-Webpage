@@ -32,7 +32,6 @@ function App() {
   useEffect(() => {
     setUsername(getCookie("username"));
 
-    console.log(username);
 
     if (loginState === "true") {
       setHideOptions("");
@@ -40,9 +39,13 @@ function App() {
       setHideOptions(true);
     }
 
-    if (loginState==="false" || !loginState) {
-      if(currentPath.pathname === "/sell" || currentPath.pathname === "/sales" || currentPath.pathname === "/cart"){
-        navigate("/")
+    if (loginState === "false" || !loginState) {
+      if (
+        currentPath.pathname === "/sell" ||
+        currentPath.pathname === "/sales" ||
+        currentPath.pathname === "/cart"
+      ) {
+        navigate("/");
       }
     }
 
@@ -108,7 +111,6 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/cart" element={<UserCart />} />
         <Route path="/item" element={<ItemPage />} />
-
       </Routes>
       <div id="footer"></div>
     </div>

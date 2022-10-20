@@ -21,10 +21,10 @@ function UserCart() {
     return arr;
   }
 
-  useEffect(async () => {
-    const obj = await getFiles();
+  useEffect( () => {
+    const obj = async()=>await getFiles();
     setfiles(obj);
-  }, [files]);
+  }, []);
 
 
   return (
@@ -39,7 +39,7 @@ function UserCart() {
         <h3>Delivery Fee</h3>
         <h3>Price</h3>
       </div>
-      {files.map((items, index) => {
+      {!files && files.map((items, index) => {
         return (
           <ShoppingCart
             key={index}

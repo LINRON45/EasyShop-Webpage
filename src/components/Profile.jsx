@@ -12,7 +12,6 @@ function Profile(props) {
       "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     document.cookie = "uid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
-    console.log(Date.now());
     setCookie("loggedIn", false);
 
     return navigate("/");

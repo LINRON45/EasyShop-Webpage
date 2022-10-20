@@ -10,10 +10,10 @@ function Contact() {
           width="100%"
           id="gmap_canvas"
           src="https://maps.google.com/maps?q=kingstown&t=&z=17&ie=UTF8&iwloc=&output=embed"
-          frameborder="0"
+          frameBorder="0"
           scrolling="no"
-          marginheight="0"
-          marginwidth="0"
+          marginHeight="0"
+          marginWidth="0"
         ></iframe>
 
         <form action="https://formsubmit.co/linronj@gmail.com" method="POST">

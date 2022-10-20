@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
 import { db, storage } from "../services/firebase-config";
@@ -11,6 +11,8 @@ import swal from "sweetalert";
 
 function Sell() {
   const uid = getCookie("uid");
+
+  const inputRef = useRef(null);
 
   const [image, setImage] = useState("");
   const [button, setButton] = useState("Submit");
@@ -48,16 +50,14 @@ function Sell() {
   );
 
   useLayoutEffect(() => {
-    const getCountry = axios
-      .get("https://restcountries.com/v2/all")
-      .then((countryRes) => {
-        const data = countryRes.data;
-        data.forEach((country) => {
-          setCountries((prev) => [...prev, country.name]);
-        });
+    axios.get("https://restcountries.com/v2/all").then((countryRes) => {
+      const data = countryRes.data;
+      data.forEach((country) => {
+        setCountries((prev) => [...prev, country.name]);
       });
+    });
 
-    const getCurrency = axios
+    axios
       .get("https://restcountries.com/v3.1/currency/dollar")
       .then((currencyRes) => {
         const currencyData = currencyRes.data;
@@ -98,7 +98,6 @@ function Sell() {
       "https://www.insticc.org/node/TechnicalProgram/56e7352809eb881d8c5546a9bbf8406e.png"
     );
 
-    //useRef is more efficient here
     const selects = document.querySelectorAll("select");
 
     selects.forEach((select) => {
@@ -148,30 +147,16 @@ function Sell() {
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
         );
         setButton(`Uploading...${prog}%`);
-
-        switch (snapshot.state) {
-          case "paused":
-            console.log("Upload is paused");
-            break;
-          case "running":
-            console.log("Upload is running");
-            break;
-        }
       },
       (error) => console.error(error),
 
       async () => {
         const imageURL = await getDownloadURL(uploadTask.snapshot.ref);
-        console.log(imageURL);
         const currentDate = Date().toString();
-
-        console.log(currentDate);
 
         setsellItem((prevVal) => {
           return { ...prevVal, image: imageURL };
         });
-
-        console.log(sellItem);
 
         try {
           await setDoc(doc(db, `Users/${uid}/Sales/${sellItem.itemName}`), {
@@ -217,8 +202,6 @@ function Sell() {
     setShowFees((prev) => {
       return { ...prev, [name]: value };
     });
-
-    console.log(value);
   }
 
   async function verifyPhoneNum(number) {
@@ -231,8 +214,6 @@ function Sell() {
       const data = await res.data;
 
       if (data.valid === true && data.carrier) {
-        console.log("valid number");
-
         setPrevNum({
           value: number,
           valid: true,
@@ -263,7 +244,6 @@ function Sell() {
         data.dnsCheck === "false" ||
         data.smtpCheck === "false"
       ) {
-        console.log("Invalid email");
         setPrevEmail({
           value: email,
           valid: false,
@@ -271,7 +251,6 @@ function Sell() {
 
         return false;
       }
-      console.log("Valid email");
       setPrevEmail({
         value: email,
         valid: true,
@@ -349,11 +328,11 @@ function Sell() {
       <div className="Sell" id="sell">
         <form className="sell-form" onSubmit={(e) => e.preventDefault()}>
           <section id="img-sec">
-          {/* can use useRef here */}
-            <button onClick={() => document.getElementById("inp-img").click()}>
+            <button onClick={() => inputRef.current.click()}>
               Upload Image
             </button>
             <input
+              ref={inputRef}
               type="file"
               id="inp-img"
               accept="image/png, image/jpeg"

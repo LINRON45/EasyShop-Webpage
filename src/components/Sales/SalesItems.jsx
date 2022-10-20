@@ -30,18 +30,16 @@ function SalesItems({ obj }) {
     try {
       await deleteDoc(doc(db, `Users/${uid}/Sales`, `${obj.itemName}`));
 
-      console.log("Successfully Deleted object");
     } catch (error) {
-      console.log("Deleting Object resulted in an Error.");
+      console.log(error);
     }
 
     try {
       const imgRef = ref(storage, `${uid}/${obj.itemName}`);
 
       await deleteObject(imgRef);
-      console.log("Successfully Deleted image");
     } catch (error) {
-      console.log("Deleting image resulted in an Error.");
+      console.log(error);
     }
   }
 
@@ -107,29 +105,33 @@ function SalesItems({ obj }) {
           </button>
         </li>
 
-        {obj.shippingList && <li className="Sales-li">
-          <span>Shipping Locations: </span>
-          <ul>
-            {obj["shippingList"].map((location, index) => {
-              return <li key={index}>{location}</li>;
-            })}
-          </ul>
-          <button onClick={editInput}>
-            <img src="edit.png" alt="" />
-          </button>
-        </li>}
+        {obj.shippingList && (
+          <li className="Sales-li">
+            <span>Shipping Locations: </span>
+            <ul>
+              {obj["shippingList"].map((location, index) => {
+                return <li key={index}>{location}</li>;
+              })}
+            </ul>
+            <button onClick={editInput}>
+              <img src="edit.png" alt="" />
+            </button>
+          </li>
+        )}
 
-        {obj.deliveryList && <li className="Sales-li">
-          <span>Delivery Locations: </span>{" "}
-          <ul>
-            {obj["deliveryList"].map((location, index) => {
-              return <li key={index}>{location}</li>;
-            })}
-          </ul>
-          <button onClick={editInput}>
-            <img src="edit.png" alt="" />
-          </button>
-        </li>}
+        {obj.deliveryList && (
+          <li className="Sales-li">
+            <span>Delivery Locations: </span>{" "}
+            <ul>
+              {obj["deliveryList"].map((location, index) => {
+                return <li key={index}>{location}</li>;
+              })}
+            </ul>
+            <button onClick={editInput}>
+              <img src="edit.png" alt="" />
+            </button>
+          </li>
+        )}
 
         {/* add lists of shipping and delivery location */}
 

@@ -20,24 +20,20 @@ function ShippingPlaces({ countries, setObj, obj, name }) {
       };
     });
 
-    return ()=>{
-      let itemObj = obj
+    return () => {
+      let itemObj = obj;
 
-      delete itemObj[name]
+      delete itemObj[name];
 
-      if(name==="shippingList"){
-        delete itemObj.shippingFee
-      }else{
-        delete itemObj.deliveryFee
+      if (name === "shippingList") {
+        delete itemObj.shippingFee;
+      } else {
+        delete itemObj.deliveryFee;
       }
 
-      setObj(itemObj)
-    }
-    
+      setObj(itemObj);
+    };
   }, [places]);
-
-
-
 
   function handleChange(event) {
     if (!places.includes(event.target.value)) {

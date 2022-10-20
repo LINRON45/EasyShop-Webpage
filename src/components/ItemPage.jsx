@@ -13,7 +13,7 @@ function ItemPage() {
     setShipList(location.state.shippingList);
     setDeliverList(location.state.deliveryList);
     setData(location.state);
-  }, []);
+  }, [location.state]);
 
   return (
     <div id="itemContainer">
