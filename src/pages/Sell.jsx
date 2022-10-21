@@ -77,7 +77,10 @@ function Sell() {
       });
   }, []);
 
+  const [resetComponent, setComponent] = useState(false);
+
   const resetForm = () => {
+    setComponent(true);
     setsellItem({
       itemName: "",
       email: "",
@@ -103,6 +106,7 @@ function Sell() {
     selects.forEach((select) => {
       select.selectedIndex = 0;
     });
+    setComponent(false);
   };
 
   function imagePreview(event) {
@@ -206,9 +210,9 @@ function Sell() {
 
   async function verifyPhoneNum(number) {
     try {
-      axios.defaults.headers["apikey"] = "TV1hz15BBYjhRsQXBMPZtYhvWXi2Dv8w";
       const res = await axios.get(
-        `https://api.apilayer.com/number_verification/validate?number=${number}/`
+        `https://api.apilayer.com/number_verification/validate?number=${number}/`,
+        { headers: { apikey: "TV1hz15BBYjhRsQXBMPZtYhvWXi2Dv8w" } }
       );
 
       const data = await res.data;
@@ -325,7 +329,11 @@ function Sell() {
 
   return (
     <Zoom in={true}>
-      <div className="Sell" id="sell">
+      <div
+        className="Sell"
+        id="sell"
+        style={resetComponent && { display: "none" }}
+      >
         <form className="sell-form" onSubmit={(e) => e.preventDefault()}>
           <section id="img-sec">
             <button onClick={() => inputRef.current.click()}>

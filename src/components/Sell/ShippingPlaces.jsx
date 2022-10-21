@@ -13,13 +13,6 @@ function ShippingPlaces({ countries, setObj, obj, name }) {
   }
 
   useEffect(() => {
-    setObj((prev) => {
-      return {
-        ...prev,
-        [name]: places,
-      };
-    });
-
     return () => {
       let itemObj = obj;
 
@@ -33,14 +26,23 @@ function ShippingPlaces({ countries, setObj, obj, name }) {
 
       setObj(itemObj);
     };
-  }, [places]);
+  }, []);
 
   function handleChange(event) {
+    let data = [...places]
     if (!places.includes(event.target.value)) {
-      setPlaces((prev) => [...prev, event.target.value]);
+      data.push(event.target.value)
+      setPlaces(data);
+      
     } else {
       alert("Already Selected.");
     }
+    setObj((prev) => {
+      return {
+        ...prev,
+        [name]: data,
+      };
+    });
   }
 
   return (
@@ -48,7 +50,7 @@ function ShippingPlaces({ countries, setObj, obj, name }) {
       <h3>
         {name === "shippingList"
           ? "Shipping Available In: "
-          : "Delivery Available In:"}
+          : "Delivery Available In: "}
       </h3>
       <ul>
         {places.map((place, index) => {
