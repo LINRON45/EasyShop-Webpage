@@ -19,11 +19,10 @@ function Home_Display(props) {
           Easy Online Shopping and Sales Promotion <br />
           Wherever you are !
         </p>
-        {cookie === "false" && (
+        {cookie === "false" || !cookie &&(
           <Button
             id="start-button"
             variant="outlined"
-            // add a path to sign up
             onClick={()=>navigate("/signup")}
           >
             Get Started
