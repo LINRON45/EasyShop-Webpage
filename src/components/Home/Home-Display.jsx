@@ -10,7 +10,7 @@ function Home_Display(props) {
 
   return (
     <div className="home-vid">
-      <video width="100%"  autoPlay muted loop>
+      <video width="100%" autoPlay muted loop>
         <source src="video.mp4" type="video/mp4"></source>
       </video>
 
@@ -19,11 +19,11 @@ function Home_Display(props) {
           Easy Online Shopping and Sales Promotion <br />
           Wherever you are !
         </p>
-        {cookie === "false" || !cookie &&(
+        {(cookie === "false" || !cookie) && (
           <Button
             id="start-button"
             variant="outlined"
-            onClick={()=>navigate("/signup")}
+            onClick={() => navigate("/signup")}
           >
             Get Started
           </Button>
