@@ -6,7 +6,7 @@
   height: 100%;
   z-index: 1;
   display: flex;
-  background-color: rgba(128, 128, 128, 0.653);
+  /* background-color: rgba(128, 128, 128, 0.653); */
 }
 
 #loginModal {

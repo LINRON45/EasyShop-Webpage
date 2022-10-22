@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
-// import Zoom from "@mui/material/Zoom";
+import Zoom from "@mui/material/Zoom";
 import { Button } from "@mui/material";
 import { Alert } from "@mui/material";
 import { setCookie } from "react-use-cookie";
@@ -87,40 +87,55 @@ function Login(props) {
     props.showLogin(false);
   }
 
+  const [display, setDisplay] = useState(false);
+  useEffect(
+    () =>
+      setTimeout(() => {
+        setDisplay(true);
+      }, 160),
+    []
+  );
+
   return (
-    <div id="loginOverlay" onClick={closeModal}>
-      <div id="loginModal">
-        <h2>
-          Log into
-          <span>
-            <LocalMallIcon />
-            EasyShop
-          </span>
-        </h2>
-        {alert && (
-          <>
-            <Alert severity={alerttype}>{message}</Alert>
-          </>
-        )}
-        <input
-          onChange={handlechange}
-          type="text"
-          name="email"
-          placeholder="Enter email"
-          value={loginAttempt.email}
-        />
-        <input
-          onChange={handlechange}
-          type="password"
-          name="password"
-          placeholder="Enter password"
-          value={loginAttempt.password}
-        />
-        <Button variant="contained" onClick={login}>
-          Log In
-        </Button>
+    <Zoom in={true}>
+      <div
+        id="loginOverlay"
+        onClick={closeModal}
+        style={display && { background: "rgba(128, 128, 128, 0.653)" }}
+      >
+        <div id="loginModal">
+          <h2>
+            Log into
+            <span>
+              <LocalMallIcon />
+              EasyShop
+            </span>
+          </h2>
+          {alert && (
+            <>
+              <Alert severity={alerttype}>{message}</Alert>
+            </>
+          )}
+          <input
+            onChange={handlechange}
+            type="text"
+            name="email"
+            placeholder="Enter email"
+            value={loginAttempt.email}
+          />
+          <input
+            onChange={handlechange}
+            type="password"
+            name="password"
+            placeholder="Enter password"
+            value={loginAttempt.password}
+          />
+          <Button variant="contained" onClick={login}>
+            Log In
+          </Button>
+        </div>
       </div>
-    </div>
+    </Zoom>
   );
 }
 

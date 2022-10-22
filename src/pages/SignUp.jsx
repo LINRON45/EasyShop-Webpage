@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { setCookie } from "react-use-cookie";
 import LoadingOverlay from "react-loading-overlay-ts";
 import { GridLoader } from "react-spinners";
+import Zoom from "@mui/material/Zoom";
 
 function SignUp() {
   const [alert, setalert] = useState(false);
@@ -153,106 +154,108 @@ function SignUp() {
       active={loading}
       spinner={<GridLoader color="#ff5c33" />}
     >
-      <div className="SignUp-page">
-        <img
-          className="SignUp-img"
-          src="https://images.pexels.com/photos/6634170/pexels-photo-6634170.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-          alt="signup-img"
-        ></img>
+      <Zoom in={true}>
+        <div className="SignUp-page">
+          <img
+            className="SignUp-img"
+            src="https://images.pexels.com/photos/6634170/pexels-photo-6634170.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+            alt="signup-img"
+          ></img>
 
-        <div className="SignUp">
-          {alert && type !== "" && (
-            <Alert id="alert" severity={type}>
-              {message}
-            </Alert>
-          )}
-          <h2>Create an Account</h2>
-          <p>It is free and easy.</p>
+          <div className="SignUp">
+            {alert && type !== "" && (
+              <Alert id="alert" severity={type}>
+                {message}
+              </Alert>
+            )}
+            <h2>Create an Account</h2>
+            <p>It is free and easy.</p>
 
-          <input
-            type="text"
-            onChange={handleChange}
-            name="fname"
-            placeholder="Enter First name"
-            value={userInfo.fname}
-            required
-          />
-
-          <input
-            type="text"
-            onChange={handleChange}
-            name="lname"
-            placeholder="Enter Last name"
-            value={userInfo.lname}
-            required
-          />
-
-          <input
-            type="text"
-            onChange={handleChange}
-            name="username"
-            placeholder="Enter Username"
-            value={userInfo.username}
-            required
-          />
-
-          <input
-            type="email"
-            onChange={handleChange}
-            name="email"
-            placeholder="Enter email"
-            value={account.email}
-            required
-          />
-
-          <input
-            type="password"
-            onChange={handleChange}
-            name="password"
-            placeholder="Enter new password"
-            value={account.password}
-            required
-          />
-
-          <input
-            type="password"
-            onChange={confirmHandle}
-            name="confirm-password"
-            placeholder="Confirm Password"
-            value={passwordconfirm}
-            required
-          />
-
-          <label htmlFor="gender">
-            Gender:
-            <select
-              id="gender"
+            <input
+              type="text"
               onChange={handleChange}
-              name="gender"
-              value={userInfo.gender}
+              name="fname"
+              placeholder="Enter First name"
+              value={userInfo.fname}
               required
-            >
-              <option>None</option>
-              <option>Male</option>
-              <option>Female</option>
-              <option>Other</option>
-            </select>
-          </label>
+            />
 
-          <label htmlFor="DOB">Date of Birth</label>
+            <input
+              type="text"
+              onChange={handleChange}
+              name="lname"
+              placeholder="Enter Last name"
+              value={userInfo.lname}
+              required
+            />
 
-          <input
-            id="DOB"
-            onChange={handleChange}
-            name="DOB"
-            type="date"
-            required
-          />
-          <Button variant="contained" onClick={CreateAcc}>
-            Sign Up
-          </Button>
+            <input
+              type="text"
+              onChange={handleChange}
+              name="username"
+              placeholder="Enter Username"
+              value={userInfo.username}
+              required
+            />
+
+            <input
+              type="email"
+              onChange={handleChange}
+              name="email"
+              placeholder="Enter email"
+              value={account.email}
+              required
+            />
+
+            <input
+              type="password"
+              onChange={handleChange}
+              name="password"
+              placeholder="Enter new password"
+              value={account.password}
+              required
+            />
+
+            <input
+              type="password"
+              onChange={confirmHandle}
+              name="confirm-password"
+              placeholder="Confirm Password"
+              value={passwordconfirm}
+              required
+            />
+
+            <label htmlFor="gender">
+              Gender:
+              <select
+                id="gender"
+                onChange={handleChange}
+                name="gender"
+                value={userInfo.gender}
+                required
+              >
+                <option>None</option>
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+              </select>
+            </label>
+
+            <label htmlFor="DOB">Date of Birth</label>
+
+            <input
+              id="DOB"
+              onChange={handleChange}
+              name="DOB"
+              type="date"
+              required
+            />
+            <Button variant="contained" onClick={CreateAcc}>
+              Sign Up
+            </Button>
+          </div>
         </div>
-      </div>
+      </Zoom>
     </LoadingOverlay>
   );
 }
