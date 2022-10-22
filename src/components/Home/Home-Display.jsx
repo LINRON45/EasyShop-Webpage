@@ -4,7 +4,7 @@ import { getCookie } from "react-use-cookie";
 import { useNavigate } from "react-router-dom";
 
 function Home_Display(props) {
-  const cookie = getCookie("state");
+  const cookie = getCookie("loggedIn");
 
   let navigate = useNavigate();
 
@@ -24,7 +24,7 @@ function Home_Display(props) {
             id="start-button"
             variant="outlined"
             // add a path to sign up
-            onClick={navigate("/signup")}
+            onClick={()=>navigate("/signup")}
           >
             Get Started
           </Button>
