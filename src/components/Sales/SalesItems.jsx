@@ -29,7 +29,7 @@ function SalesItems({ obj, callback }) {
   async function deletefile() {
     try {
       await deleteDoc(doc(db, `Users/${uid}/Sales`, `${obj.itemName}`));
-
+      callback();
     } catch (error) {
       console.log(error);
     }
@@ -41,7 +41,6 @@ function SalesItems({ obj, callback }) {
     } catch (error) {
       console.log(error);
     }
-    callback()
   }
 
   return (
