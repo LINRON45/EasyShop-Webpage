@@ -84,28 +84,36 @@ function ItemPage() {
               <hr></hr>
               <p>Manufactured In {data.country}</p>
               <p>
-                Price: ${data.price ? data.price : "0.00"} {data.currency}
+                <span>Condition: </span>
+                {data.condition}
+              </p>
+
+              <p>
+                <span>Price:</span> ${data.price ? data.price : "0.00"}{" "}
+                {data.currency}
               </p>
               {data.shippingFee && (
                 <p>
-                  Shipping Cost: ${data.shippingFee} {data.currency}
+                  <span> Shipping Cost:</span> ${data.shippingFee}{" "}
+                  {data.currency}
                 </p>
               )}
               {data.deliveryFee && (
                 <p>
-                  Delivery Cost: ${data.deliveryFee} {data.currency}
+                  <span>Delivery Cost:</span> ${data.deliveryFee}{" "}
+                  {data.currency}
                 </p>
               )}
 
-              <section>
-                <h1>Description</h1>
+              <section id="details">
+                <h1 className="item-header">Description</h1>
                 {data.description}
               </section>
             </section>
           </div>
 
           <section id="toCart">
-            {total()} {data.currency}
+            <p>{total()} <span>{data.currency}</span></p>
             <div>
               <section>
                 <label htmlFor="ship-box">Ship</label>
@@ -123,6 +131,16 @@ function ItemPage() {
             </div>
             <button>Add to Cart</button>
           </section>
+
+          <div id="contact">
+            <h1 className="item-header" >Contact Retailer</h1>
+            <p>
+              <span>E-mail Address: </span> {data.email}
+            </p>
+            <p>
+              <span>Phone Number: </span> {data.phone}
+            </p>
+          </div>
 
           {shipList && deliverList && (
             <table>
