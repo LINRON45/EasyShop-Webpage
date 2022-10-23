@@ -5,7 +5,7 @@ import { getCookie } from "react-use-cookie";
 import { ref, deleteObject } from "firebase/storage";
 import { storage } from "../../services/firebase-config";
 
-function SalesItems({ obj }) {
+function SalesItems({ obj, callback }) {
   const [update, setupdate] = useState(false);
 
   const [deleteImg, setImg] = useState("closeBin.png");
@@ -41,6 +41,7 @@ function SalesItems({ obj }) {
     } catch (error) {
       console.log(error);
     }
+    callback()
   }
 
   return (

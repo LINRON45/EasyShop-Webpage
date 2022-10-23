@@ -17,7 +17,7 @@ function Contact() {
         ></iframe>
 
         <form action="https://formsubmit.co/linronj@gmail.com" method="POST">
-        <p>Location: Kingstown, Saint Vincent and the Grenadines</p>
+        <p>Headquarters Location: Kingstown, Saint Vincent and the Grenadines</p>
 
           <h1>How can we help?</h1>
           <input type="text" name="name" placeholder="Your Name" required />
