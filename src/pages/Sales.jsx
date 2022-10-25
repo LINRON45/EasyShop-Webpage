@@ -4,7 +4,6 @@ import { db } from "../services/firebase-config";
 import { getCookie } from "react-use-cookie";
 import SalesItems from "../components/Sales/SalesItems";
 import Zoom from "@mui/material/Zoom";
-import { async } from "@firebase/util";
 
 function Sales() {
   const userId = getCookie("uid");

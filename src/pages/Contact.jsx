@@ -7,6 +7,7 @@ function Contact() {
     <Zoom in={true}>
       <div className="Contact">
         <iframe
+          title="map"
           width="100%"
           id="gmap_canvas"
           src="https://maps.google.com/maps?q=kingstown&t=&z=17&ie=UTF8&iwloc=&output=embed"
@@ -17,7 +18,9 @@ function Contact() {
         ></iframe>
 
         <form action="https://formsubmit.co/linronj@gmail.com" method="POST">
-        <p>Headquarters Location: Kingstown, Saint Vincent and the Grenadines</p>
+          <p>
+            Headquarters Location: Kingstown, Saint Vincent and the Grenadines
+          </p>
 
           <h1>How can we help?</h1>
           <input type="text" name="name" placeholder="Your Name" required />

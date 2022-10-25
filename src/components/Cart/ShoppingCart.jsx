@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { getCookie } from "react-use-cookie";
 import { doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../services/firebase-config";
@@ -22,12 +22,18 @@ function ShoppingCart(props) {
     }
   }
 
+  const [remove, setRemove] = useState(false);
   async function removeItem() {
-    await deleteDoc(doc(db, `Users/${uid}/Cart`, `${props.id}`));
+    try {
+      await deleteDoc(doc(db, `Users/${uid}/Cart`, `${props.Name}`));
+      setRemove(true);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
-    <div className="Cart-contents">
+    <div className="Cart-contents" style={{ display: remove && "none" }}>
       <img
         src={
           props.Image ||
@@ -67,7 +73,11 @@ function ShoppingCart(props) {
 
       <div>
         <button className="Cart-remove" onClick={removeItem}>
-          Remove from Cart
+          {/* <img
+            src="https://cdn-icons-png.flaticon.com/512/6572/6572664.png"
+            alt=""
+          /> */}
+          remove
         </button>
       </div>
     </div>

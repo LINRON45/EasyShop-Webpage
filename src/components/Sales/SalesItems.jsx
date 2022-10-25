@@ -1,26 +1,14 @@
 import React, { useState } from "react";
-import { doc, deleteDoc, updateDoc } from "firebase/firestore";
+import { doc, deleteDoc } from "firebase/firestore";
 import { db } from "../../services/firebase-config";
 import { getCookie } from "react-use-cookie";
 import { ref, deleteObject } from "firebase/storage";
 import { storage } from "../../services/firebase-config";
 
 function SalesItems({ obj, callback }) {
-  const [update, setupdate] = useState(false);
 
   const [deleteImg, setImg] = useState("closeBin.png");
   const uid = getCookie("uid");
-
-  function handleChange() {}
-  // async function updatefile() {
-  //   console.log(newObj);
-  //   const fileRef = doc(db, `Users/${uid}/Sales`, `${SaleitemId}`);
-
-  //   await updateDoc(fileRef, {
-  //     ...newObj,
-  //   });
-  //   setupdate(!update);
-  // }
 
   function editInput() {
     alert("Feature Coming Soon!");

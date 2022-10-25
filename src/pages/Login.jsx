@@ -19,6 +19,8 @@ function Login(props) {
   const [message, setmessage] = useState("");
   const [alerttype, settype] = useState();
 
+  const itemPage = props.cart;
+
   let navigate = useNavigate();
 
   function handlechange(event) {
@@ -66,9 +68,13 @@ function Login(props) {
       setCookie("username", `${data.username}`);
       setCookie("uid", `${userID}`);
       setCookie("loggedIn", true);
+      console.log(itemPage);
+      if (itemPage) {
+        return window.location.reload();
+      }
 
       props.showLogin(false);
-      props.func(data.username);
+
       return navigate("/");
     } catch (error) {
       setAlert(true);
@@ -93,6 +99,7 @@ function Login(props) {
       setTimeout(() => {
         setDisplay(true);
       }, 160),
+
     []
   );
 

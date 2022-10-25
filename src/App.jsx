@@ -17,7 +17,7 @@ import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import Profile from "./components/Profile";
 import UserCart from "./pages/Cart";
-import ItemPage from "./components/ItemPage";
+import ItemPage from "./pages/ItemPage";
 import { getCookie, setCookie } from "react-use-cookie";
 
 function App() {
@@ -52,12 +52,9 @@ function App() {
     if (currentPath.pathname === "/signup" && loginState === "true") {
       navigate("/");
     }
-  }, [loginstate]);
+  }, []);
 
-  function loginstate(username) {
-    setCookie("loggedIn", true);
-    setCookie("username", `${username}`);
-  }
+
 
   return (
     <div>
@@ -100,7 +97,7 @@ function App() {
         </ul>
       </nav>
 
-      {showLogin && <Login Func={loginstate} showLogin={setShowLogin} />}
+      {showLogin && <Login  showLogin={setShowLogin} />}
 
       <Routes>
         <Route path="/" element={<Home />} />

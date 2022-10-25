@@ -1,6 +1,9 @@
-import { DateRange } from "@mui/icons-material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useLocation } from "react-router";
+import Login from "./Login";
+import { getCookie } from "react-use-cookie";
+import { doc, setDoc, getDoc } from "firebase/firestore";
+import { db } from "../services/firebase-config";
 
 function ItemPage() {
   const location = useLocation();
@@ -11,6 +14,27 @@ function ItemPage() {
 
   const [ship, setShip] = useState(false);
   const [deliver, setDeliver] = useState(false);
+
+  const [showLogin, setShowLogin] = useState(false);
+  const [stay, setStay] = useState(false);
+  const [button, setButton] = useState(false);
+
+  useLayoutEffect(() => {
+    const checkCart = async () => {
+      const uid = getCookie("uid");
+
+      const existInCart = await getDoc(
+        doc(db, `Users/${uid}/Cart`, location.state.itemName)
+      );
+
+      if (existInCart.exists()) {
+        console.log("button disabled");
+        setButton(true);
+      }
+    };
+
+    checkCart();
+  }, []);
 
   useEffect(() => {
     setShipList(location.state.shippingList);
@@ -70,6 +94,35 @@ function ItemPage() {
     }
   }
 
+  async function AddtoCart() {
+    const login = getCookie("loggedIn");
+    const uid = getCookie("uid");
+    if (login !== "true") {
+      setStay(true);
+      setShowLogin(true);
+      return;
+    }
+
+    try {
+      await setDoc(doc(db, `Users/${uid}/Cart/${data.itemName}`), {
+        itemName: data.itemName,
+        image: data.image,
+        price: data.price ? data.price : "null",
+        currency: data.currency ? data.currency : "null",
+        shippingFee: data.shippingFee && ship ? data.shippingFee : "null",
+        deliveryFee: data.deliveryFee && deliver ? data.deliveryFee : "null",
+        // deliveryLocation: deliveryLocation,
+        // shippingLocation: shippingLocation,
+        quantity: 1,
+        total: total(),
+      });
+
+      setButton(true);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div id="itemContainer">
       {data && (
@@ -113,27 +166,40 @@ function ItemPage() {
           </div>
 
           <section id="toCart">
-            <p>{total()} <span>{data.currency}</span></p>
-            <div>
-              <section>
-                <label htmlFor="ship-box">Ship</label>
-                <input type="checkbox" name="ship" onChange={changeTotal} />
-              </section>
-              <section>
-                <label htmlFor="delivery-box">Deliver</label>
-                <input
-                  type="checkbox"
-                  id="delivery-box"
-                  name="deliver"
-                  onChange={changeTotal}
-                />
-              </section>
+            <p>
+              {total()} <span>{data.currency}</span>
+            </p>
+            <div style={{ minHeight: "2vw" }}>
+              {shipList && (
+                <section>
+                  <label htmlFor="ship-box">Ship</label>
+                  <input type="checkbox" name="ship" onChange={changeTotal} />
+                </section>
+              )}
+              {deliverList && (
+                <section>
+                  <label htmlFor="delivery-box">Deliver</label>
+                  <input
+                    type="checkbox"
+                    id="delivery-box"
+                    name="deliver"
+                    onChange={changeTotal}
+                  />
+                </section>
+              )}
             </div>
-            <button>Add to Cart</button>
+            <button onClick={AddtoCart} disabled={button}>
+              Add to Cart
+            </button>
+            {showLogin && (
+              <div id="cartLogin">
+                <Login showLogin={setShowLogin} cart={stay} />
+              </div>
+            )}
           </section>
 
           <div id="contact">
-            <h1 className="item-header" >Contact Retailer</h1>
+            <h1 className="item-header">Contact Retailer</h1>
             <p>
               <span>E-mail Address: </span> {data.email}
             </p>

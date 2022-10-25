@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, {
+  useState,
+  useEffect,
+  useLayoutEffect,
+  useCallback,
+} from "react";
 import { getCookie } from "react-use-cookie";
 import ShoppingCart from "../components/Cart/ShoppingCart";
 import { getDocs, collection } from "firebase/firestore";
 import { db } from "../services/firebase-config";
 import Zoom from "@mui/material/Zoom";
-
 
 function UserCart() {
   const [files, setfiles] = useState([]);
@@ -14,46 +18,45 @@ function UserCart() {
     const arr = [];
     const allCart = await getDocs(collection(db, `Users/${uid}/Cart`));
 
-    allCart.forEach((i) => {
-      arr.push(i.data());
+    allCart.forEach((item) => {
+      arr.push(item.data());
+      console.log(arr);
+      setfiles(arr);
     });
-
-    return arr;
   }
 
-  useEffect( () => {
-    const obj = async()=>await getFiles();
-    setfiles(obj);
+  useLayoutEffect(() => {
+    getFiles();
   }, []);
 
+  
 
   return (
     <Zoom in={true}>
+      <div className="Cart">
+        <div className="Cart-headings">
+          <h3>Product Image</h3>
+          <h3>Name</h3>
+          <h3>Quantity</h3>
+          <h3>Shipping Fee</h3>
+          <h3>Delivery Fee</h3>
+          <h3>Price</h3>
+        </div>
+        {files &&
+          files.map((items, index) => {
+            return (
+              <ShoppingCart
+                key={index}
+                Image={items.image}
+                Name={items.itemName}
+                Quantity={items.quantity}
+                Price={items.price}
+                Currency={items.currency}
+              />
+            );
+          })}
 
-    <div className="Cart">
-      <div className="Cart-headings">
-        <h3>Product Image</h3>
-        <h3>Name</h3>
-        <h3>Quantity</h3>
-        <h3>Shipping Fee</h3>
-        <h3>Delivery Fee</h3>
-        <h3>Price</h3>
-      </div>
-      {!files && files.map((items, index) => {
-        return (
-          <ShoppingCart
-            key={index}
-            id={items.id}
-            Image={items.image}
-            Name={items.itemName}
-            Quantity={items.quantity}
-            Price={items.price}
-            Currency={items.currency}
-          />
-        );
-      })}
-
-      <div id="checkout">
+        {/* <div id="checkout">
         <p>$$$</p>
         <p>$$$</p>
         <p>$$$</p>
@@ -61,8 +64,8 @@ function UserCart() {
           <p>$$$</p>
           <button>Checkout</button>
         </div>
+      </div> */}
       </div>
-    </div>
     </Zoom>
   );
 }

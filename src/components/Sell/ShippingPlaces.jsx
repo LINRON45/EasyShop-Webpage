@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
 function ShippingPlaces({ countries, setObj, obj, name }) {
-  //countries,
 
   const [places, setPlaces] = useState([]);
 
