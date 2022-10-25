@@ -15,21 +15,18 @@ function UserCart() {
   const uid = getCookie("uid");
 
   async function getFiles() {
-    const arr = [];
+    const cartData = [];
     const allCart = await getDocs(collection(db, `Users/${uid}/Cart`));
 
     allCart.forEach((item) => {
-      arr.push(item.data());
-      console.log(arr);
-      setfiles(arr);
+      cartData.push(item.data());
+      setfiles(cartData);
     });
   }
 
   useLayoutEffect(() => {
     getFiles();
   }, []);
-
-  
 
   return (
     <Zoom in={true}>
@@ -40,20 +37,11 @@ function UserCart() {
           <h3>Quantity</h3>
           <h3>Shipping Fee</h3>
           <h3>Delivery Fee</h3>
-          <h3>Price</h3>
+          <h3>Total Cost</h3>
         </div>
         {files &&
           files.map((items, index) => {
-            return (
-              <ShoppingCart
-                key={index}
-                Image={items.image}
-                Name={items.itemName}
-                Quantity={items.quantity}
-                Price={items.price}
-                Currency={items.currency}
-              />
-            );
+            return <ShoppingCart key={index} item={items} />;
           })}
 
         {/* <div id="checkout">

@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { getCookie } from "react-use-cookie";
 import { doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../services/firebase-config";
 
-function ShoppingCart(props) {
+function ShoppingCart({ item }) {
   const uid = getCookie("uid");
 
-  const fileRef = doc(db, `Users/${uid}/Cart`, `${props.Name}`);
+  const fileRef = doc(db, `Users/${uid}/Cart`, `${item.itemName}`);
 
   async function increaseQuantity() {
     await updateDoc(fileRef, {
-      quantity: props.Quantity + 1,
+      quantity: item.quantity + 1,
     });
   }
 
   async function decreaseQuantity() {
-    if (props.Quantity !== 1) {
+    if (item.Quantity !== 1) {
       await updateDoc(fileRef, {
-        quantity: props.Quantity - 1,
+        quantity: item.quantity - 1,
       });
     }
   }
@@ -25,7 +25,7 @@ function ShoppingCart(props) {
   const [remove, setRemove] = useState(false);
   async function removeItem() {
     try {
-      await deleteDoc(doc(db, `Users/${uid}/Cart`, `${props.Name}`));
+      await deleteDoc(doc(db, `Users/${uid}/Cart`, `${item.itemName}`));
       setRemove(true);
     } catch (error) {
       console.log(error);
@@ -36,39 +36,57 @@ function ShoppingCart(props) {
     <div className="Cart-contents" style={{ display: remove && "none" }}>
       <img
         src={
-          props.Image ||
+          item.image ||
           "https://c.tenor.com/SUvStf4vWyQAAAAM/loading-and-you-failed.gif"
         }
         alt=""
       ></img>
 
       <div className="product">
-        <p>{props.Name}</p>
+        <p>{item.itemName}</p>
       </div>
 
       <div className="quantity">
         <button onClick={increaseQuantity}>
           <img className="arrow" src="arrow.png" alt="" />
         </button>
-        <p>{props.Quantity}</p>
+        <p>{item.quantity}</p>
         <button onClick={decreaseQuantity}>
           <img id="decrease-arrow" className="arrow" src="arrow.png" alt="" />
         </button>
       </div>
 
       <div>
-        <p>$ {(props.Price * props.Quantity).toFixed(2)}</p>
-        <p>{props.Currency}</p>
+        {item.shippingFee !== "null" ? (
+          <>
+            <p>$ {parseFloat(item.shippingFee).toFixed(2)}</p>
+            <p>{item.currency}</p>
+          </>
+        ) : (
+          "-"
+        )}
       </div>
 
       <div>
-        <p>$ {(props.Price * props.Quantity).toFixed(2)}</p>
-        <p>{props.Currency}</p>
+        {item.deliveryFee !== "null" ? (
+          <>
+            <p>$ {parseFloat(item.deliveryFee).toFixed(2)}</p>
+            <p>{item.currency}</p>
+          </>
+        ) : (
+          "-"
+        )}
       </div>
 
       <div>
-        <p>$ {(props.Price * props.Quantity).toFixed(2)}</p>
-        <p>{props.Currency}</p>
+        {item.currency !== "null" ? (
+          <>
+            <p>$ {parseFloat(item.total).toFixed(2)}</p>
+            <p>{item.currency}</p>
+          </>
+        ) : (
+          <p>$ {parseFloat(item.total).toFixed(2)}</p>
+        )}
       </div>
 
       <div>

@@ -49,39 +49,28 @@ function ItemPage() {
     } else {
       price = 0;
     }
-    if (!price) {
-      return "Free";
-    }
+
     if (!ship && deliver) {
-      return (
-        "$" + (parseFloat(price) + parseFloat(data.deliveryFee)).toFixed(2)
-      );
+      return (parseFloat(price) + parseFloat(data.deliveryFee)).toFixed(2);
     }
 
     if (ship && !deliver) {
-      return (
-        "$" + (parseFloat(price) + parseFloat(data.shippingFee)).toFixed(2)
-      );
+      return (parseFloat(price) + parseFloat(data.shippingFee)).toFixed(2);
     }
 
     if (ship) {
       if (deliver) {
         return (
-          "$" +
-          (
-            parseFloat(price) +
-            parseFloat(data.shippingFee) +
-            parseFloat(data.deliveryFee)
-          ).toFixed(2)
-        );
+          parseFloat(price) +
+          parseFloat(data.shippingFee) +
+          parseFloat(data.deliveryFee)
+        ).toFixed(2);
       }
-      return (
-        "$" + (parseFloat(price) + parseFloat(data.shippingFee)).toFixed(2)
-      );
+      return (parseFloat(price) + parseFloat(data.shippingFee)).toFixed(2);
     } else if (deliver) {
     }
 
-    return "$" + parseFloat(price).toFixed(2);
+    return parseFloat(price).toFixed(2);
   }
 
   function changeTotal(event) {
@@ -167,7 +156,7 @@ function ItemPage() {
 
           <section id="toCart">
             <p>
-              {total()} <span>{data.currency}</span>
+              $ {total()} <span>{data.currency}</span>
             </p>
             <div style={{ minHeight: "2vw" }}>
               {shipList && (
